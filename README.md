@@ -1,1 +1,1 @@
-# front-end-app
+# exercise_buddy
