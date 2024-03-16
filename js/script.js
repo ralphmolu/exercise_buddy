@@ -49,8 +49,12 @@ fetch(exNinApi, {
 
 //event Listeners for the drop down menus in the HomePage
 $(document).ready(function () {
-    $(".dropdown-trigger").click(function () {
-        $(".dropdown").toggleClass("is-active")
+
+    $(".dropdown-trigger button").click(function () {
+        $(this).closest(".dropdown").toggleClass("is-active");
+
+        //close other dropdowns by removing the is-active class on the other dropdowns
+        $('.dropdown').not($(this).closest('.dropdown')).removeClass('is-active');
     })
 
 })
