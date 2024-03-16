@@ -1,6 +1,7 @@
-var ytAPIKeyDan = 'AIzaSyB9d1Cst7FLimdflVD7dDzQFe6k09qyzsE'
-var searchQuery = 'elvis'
-var ytAPI = 'https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=' + searchQuery + '&key=AIzaSyB9d1Cst7FLimdflVD7dDzQFe6k09qyzsE'
+var ytAPIKeyDan = 'AIzaSyB9d1Cst7FLimdflVD7dDzQFe6k09qyzsE';
+var ytAPIKeyRalph = 'AIzaSyDN2x7IWfitTATr3ByxdWJnBLycKq_T19k';
+var searchQuery = 'drake'
+var ytAPI = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=${searchQuery}&key=${ytAPIKeyRalph}`
 var ytLink = 'https://www.youtube.com/watch?v='
 
 var exNinApiKey= '38bf2ea7dbmsh996e21bb45906dbp14c699jsn856b582ec0ba'
