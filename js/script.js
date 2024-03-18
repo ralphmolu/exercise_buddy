@@ -42,8 +42,11 @@ fetch(exNinApi, {
     .then(function (response) {
         return response.json();
     })
-    .then(function (data) {
+    .then(function (data) {        
         console.log(data)
+        // TEMPORARY: Using the following two lines to test functionality of exercise list generator
+        exList=data
+        genExList()
     })
 
 
@@ -53,8 +56,27 @@ $(document).ready(function () {
     $(".dropdown-trigger button").click(function () {
         $(this).closest(".dropdown").toggleClass("is-active");
 
-        //close other dropdowns by removing the is-active class on the other dropdowns
+        // close other dropdowns by removing the is-active class on the other dropdowns
         $('.dropdown').not($(this).closest('.dropdown')).removeClass('is-active');
     })
 
 })
+
+// [feature/gen-ex-list] start
+// Creating code to generate a list of 10 exercises based on user selection
+
+var resultsListEl= $('#results-list')
+
+// This var will hold the 10 matches based on user criteria. At the moment, the matching functionality has not been created.
+var exList
+
+
+function genExList() {
+exList.forEach(function(result){
+    // Text of each list item/button will be the title of the exercise. 
+    var resultButtonEl= $('<button>').text(result.name).attr('data-exercise',result).addClass('button is-link m-2')
+    resultsListEl.append(resultButtonEl)
+})
+}
+
+// [feature/gen-ex-list] end
