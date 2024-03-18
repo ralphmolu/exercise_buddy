@@ -62,6 +62,19 @@ $(document).ready(function () {
         $('.dropdown').not($(this).closest('.dropdown')).removeClass('is-active');
     })
 
+    //event listener on drop-down item to populate main drop down with clicked item
+    $(".dropdown-item").click(function(){
+        var dropdownItemText = $(this).text();
+        $(this).closest(".dropdown").removeClass("is-active").find("button span").eq(0).text(dropdownItemText);
+    })
+
+    //collapse dropdown(s) when clicking away from them
+    $(document).click(function(event){
+        if (!$(event.target).closest(".dropdown").length){
+            $(".dropdown").removeClass("is-active");
+        }
+    })
+
 })
 
 // [feature/gen-ex-list] start
