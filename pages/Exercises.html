@@ -11,29 +11,32 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 </head>
 
-<body>
+<body id="body-ex">
     <section id="nav-title" class="is-flex is-flex-direction-column is-align-items-center mb-3">
-    <nav class="is-flex">
-        <!-- Using words as placeholder for recent Exercise; will become icon -->
-        <i><img class="img logo-img" src="./images/logo.png" alt="Exercise buddy logo" width="5%"> </i>
-        <i>Recent Exercises</i>
-    </nav>
+        <nav class="is-flex">
+            <!-- Using words as placeholder for recent Exercise; will become icon -->
+            <i><img class="img logo-img" src="/images/logo.png" alt="Exercise buddy logo" width="5%"> </i>
+            <i>Recent Exercises</i>
+        </nav>
 
-    <h1 class="title is-1"> Exercise Buddy</h1>
-</section>
+        <h1 class="title is-1"> Exercise Buddy</h1>
+    </section>
+    
     <!-- danrcross: branch: feature/exercise-page -->
     <!-- Section for 'Exercises:' page, listing results of user input(s) -->
-    <section id="results-page" class="is-flex is-flex-direction-column is-align-items-center">
-        <h1 class="title is-2">Exercises:</h1>
-        <ul id="results-list" class="is-flex is-flex-direction-column m-2"></ul>
-        <!-- List items should have class: 'results-list-item' -->
-    </section>
+    <div id="replaceable">
+        <section id="results-page" class="is-flex is-flex-direction-column is-align-items-center">
+            <h1 class="title is-2">Exercises:</h1>
+            <ul id="results-list" class="is-flex is-flex-direction-column m-2"></ul>
+            <!-- List items should have class: 'results-list-item' -->
+        </section>
+    </div>
     <!-- [feature/exercise-page] -->
     <!-- [feature/gen-ex-list] -->
     <script src="https://kit.fontawesome.com/7b7cd6b3ef.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="./js/script.js"></script>
+    <script src="/js/script.js"></script>
 </body>
 
 </html>
