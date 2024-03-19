@@ -10,6 +10,8 @@ var exNinApi = 'https://exercises-by-api-ninjas.p.rapidapi.com/v1/exercises'
 var exNinApiHost = 'exercises-by-api-ninjas.p.rapidapi.com'
 var userChoice = [];
 
+var exNameHeader = $('#exercise-name-header')
+
 // Info on search queries here: https://developers.google.com/youtube/v3/docs/search/list#usage. click on '</>' icon by 'list (by keyword)
 
 function parseVidIds(data) {
@@ -95,7 +97,7 @@ var exList
 function genExList() {
     exList.forEach(function (result) {
         // Text of each list item/button will be the title of the exercise. 
-        var resultButtonEl = $('<button>').text(result.name).attr('data-exercise', result).addClass('button is-link m-2')
+        var resultButtonEl = $('<button>').text(result.name).attr('data-exercise', result.name).addClass('button is-link m-2 exercise-list-item')
         resultsListEl.append(resultButtonEl)
     })
 }
@@ -135,3 +137,24 @@ function updateExNinAPIUrl() {
     console.log(exNinApi);
 
 }
+// [feature/nav-to-instruction] start
+resultsListEl.click(function (event) {
+    var clickedEl = $(event.target)
+    if ((clickedEl.attr('class').includes('button'))===true){
+    var clickedName = clickedEl.attr('data-exercise')    
+    var instructHTML = '/pages/Instruct.html'    
+    localStorage.setItem('exercise-picked', clickedName)
+    window.location.replace(instructHTML)
+    }else {
+        console.log('not button')
+        return
+    }
+})
+
+addExTitle()
+function addExTitle() {
+    var exNameHeader = $('#exercise-name-header')
+    var pickedExercise = localStorage.getItem('exercise-picked')
+    exNameHeader.text(pickedExercise)
+}
+// [feature/nav-to-instruction] end
