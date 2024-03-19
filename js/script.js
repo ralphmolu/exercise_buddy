@@ -26,32 +26,16 @@ function parseVidIds(data) {
     })
 }
 // Fetch the YT API data
-fetch(ytAPI)
-    .then(function (response) {
-        return response.json();
-    })
-    .then(function (data) {
-        console.log(data)
-        parseVidIds(data)
-    })
-
-// Fetch the Exercise API data
-fetch(exNinApi, {
-    headers: {
-        'X-RapidAPI-Key': exNinApiKey,
-        'X-RapidAPI-Host': exNinApiHost
-    }
-})
-    .then(function (response) {
-        return response.json();
-    })
-    .then(function (data) {
-        console.log(data)
-        // TEMPORARY: Using the following two lines to test functionality of exercise list generator
-        exList = data
-        genExList()
-    })
-
+function fetchYT() {
+    fetch(ytAPI)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data)
+            parseVidIds(data)
+        })
+}
 
 //event Listeners for the drop down menus in the HomePage
 $(document).ready(function () {
@@ -77,10 +61,11 @@ $(document).ready(function () {
     })
 
     //eventlistener for find exercises button
-    $("#find-ex-btn").click(function(){
-        updateExNinAPIUrl();
+    $("#find-ex-btn").click(function () {
+        // [feature/find-btn-gen] I changed/ added these 3 lines
+        exNinApi = updateExNinAPIUrl();
+        fetchEx(exNinApi)
 
-        // window.location.href = "./Exercises.html"
     })
 
 })
@@ -94,8 +79,8 @@ var resultsListEl = $('#results-list')
 var exList
 
 
-function genExList() {
-    exList.forEach(function (result) {
+function genExList(data) {
+    data.forEach(function (result) {
         // Text of each list item/button will be the title of the exercise. 
         var resultButtonEl = $('<button>').text(result.name).attr('data-exercise', result.name).addClass('button is-link m-2 exercise-list-item')
         resultsListEl.append(resultButtonEl)
@@ -104,6 +89,8 @@ function genExList() {
 
 // [feature/gen-ex-list] end
 
+
+// [feature/find-btn-gen] I added .trim(). Don't forget to remove, as this is Ralph's code
 //update API based on user choices
 function updateExNinAPIUrl() {
     var baseURL = `https://exercises-by-api-ninjas.p.rapidapi.com/v1/exercises`;
@@ -116,36 +103,37 @@ function updateExNinAPIUrl() {
     //check the text in the main/default dropdown box and store it in variables
     if ($("#ex-main").text() !== 'Choose exercise type here') {
         exType = $("#ex-main").text().toLowerCase();
-        userChoice.push('type='+ exType);
+        userChoice.push('type=' + exType.trim());
     }
     if ($("#muscle-main").text() !== 'Choose muscle group here') {
         muscle = $("#muscle-main").text().toLowerCase();
-        userChoice.push('muscle='+ muscle);
+        userChoice.push('muscle=' + muscle.trim());
     }
     if ($("#difficulty-main").text() !== 'Choose difficulty here') {
         difficulty = $("#difficulty-main").text().toLowerCase();
-        userChoice.push('difficulty='+ difficulty);
+        userChoice.push('difficulty=' + difficulty.trim());
     }
 
     var exNinApi;
-    if (userChoice.length > 0){
+    if (userChoice.length > 0) {
         exNinApi = baseURL + "?" + userChoice.join('&');
     } else {
         exNinApi = baseURL;
     }
-
-    console.log(exNinApi);
+    console.log(exNinApi)
+    // [feature/find-btn-gen] I added this return line
+    return exNinApi
 
 }
 // [feature/nav-to-instruction] start
 resultsListEl.click(function (event) {
     var clickedEl = $(event.target)
-    if ((clickedEl.attr('class').includes('button'))===true){
-    var clickedName = clickedEl.attr('data-exercise')    
-    var instructHTML = '/pages/Instruct.html'    
-    localStorage.setItem('exercise-picked', clickedName)
-    window.location.replace(instructHTML)
-    }else {
+    if ((clickedEl.attr('class').includes('button')) === true) {
+        var clickedName = clickedEl.attr('data-exercise')
+        var instructHTML = '/pages/Instruct.html'
+        localStorage.setItem('exercise-picked', clickedName)
+        window.location.replace(instructHTML)
+    } else {
         console.log('not button')
         return
     }
@@ -158,3 +146,35 @@ function addExTitle() {
     exNameHeader.text(pickedExercise)
 }
 // [feature/nav-to-instruction] end
+
+// // Fetch the Exercise API data
+// [feature/find-btn-gen start] turning this into a function that can be called when needed
+function fetchEx(newUrl) {
+    fetch(newUrl, {
+        headers: {
+            'X-RapidAPI-Key': exNinApiKey,
+            'X-RapidAPI-Host': exNinApiHost
+        }
+    })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data)
+            storeFetchEx(data)
+            window.location.href = "pages/Exercises.html"
+        })
+}
+
+function storeFetchEx(data) {
+    localStorage.setItem('thisFetchEx', JSON.stringify(data))
+}
+function retrieveFetchEx() {
+    return JSON.parse(localStorage.getItem('thisFetchEx'))
+}
+
+// Since 'find ex' button will take us to a new page, I will need to run some functions specific to the exercise page on load:
+var userExList
+userExList=retrieveFetchEx()
+genExList(userExList)
+// [feature/find-btn-gen end]
