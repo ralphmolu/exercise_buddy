@@ -120,7 +120,7 @@ function addExTitle() {
 
 function addToRecents(exercise) {
     var recentsArray=(JSON.parse(localStorage.getItem('recents')))||[]
-    recentsArray.push(exercise)
+    recentsArray.unshift(exercise)
     localStorage.setItem('recents',JSON.stringify(recentsArray))
 
 }
