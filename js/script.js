@@ -26,7 +26,8 @@ function parseVidIds(data) {
     })
 }
 // Fetch the YT API data
-fetch(ytAPI)
+function fetchYT() {
+    fetch(ytAPI)
     .then(function (response) {
         return response.json();
     })
@@ -34,24 +35,7 @@ fetch(ytAPI)
         console.log(data)
         parseVidIds(data)
     })
-
-// Fetch the Exercise API data
-fetch(exNinApi, {
-    headers: {
-        'X-RapidAPI-Key': exNinApiKey,
-        'X-RapidAPI-Host': exNinApiHost
-    },
-})
-    .then(function (response) {
-        return response.json();
-    })
-    .then(function (data) {
-        console.log(data)
-        // TEMPORARY: Using the following two lines to test functionality of exercise list generator
-        exList = data
-        genExList()
-    })
-
+}
 
 //event Listeners for the drop down menus in the HomePage
 $(document).ready(function () {
@@ -77,10 +61,11 @@ $(document).ready(function () {
     })
 
     //eventlistener for find exercises button
-    $("#find-ex-btn").click(function(){
-        updateExNinAPIUrl();
+    $("#find-ex-btn").click(function () {
+        // [feature/find-btn-gen] I changed/ added these 3 lines
+        exNinApi = updateExNinAPIUrl();
+        fetchEx(exNinApi)
 
-        // window.location.href = "./Exercises.html"
     })
 
 })
@@ -93,17 +78,20 @@ var resultsListEl = $('#results-list')
 // This var will hold the 10 matches based on user criteria. At the moment, the matching functionality has not been created.
 var exList
 
-
-function genExList() {
-    exList.forEach(function (result) {
+// [feature/find-btn-gen] Added the 'data-index' attribute
+function genExList(data) {
+    data.forEach(function (result) {
+        var index = data.indexOf(result)
         // Text of each list item/button will be the title of the exercise. 
-        var resultButtonEl = $('<button>').text(result.name).attr('data-exercise', result.name).addClass('button is-link m-2 exercise-list-item')
+        var resultButtonEl = $('<button>').text(result.name).attr('data-exercise', result.name).attr('data-index', index).addClass('button is-link m-2 exercise-list-item')
         resultsListEl.append(resultButtonEl)
     })
 }
 
 // [feature/gen-ex-list] end
 
+
+// [feature/find-btn-gen] I added .trim(). Don't forget to remove, as this is Ralph's code
 //update API based on user choices
 function updateExNinAPIUrl() {
     var baseURL = `https://exercises-by-api-ninjas.p.rapidapi.com/v1/exercises`;
@@ -116,25 +104,26 @@ function updateExNinAPIUrl() {
     //check the text in the main/default dropdown box and store it in variables
     if ($("#ex-main").text() !== 'Choose exercise type here') {
         exType = $("#ex-main").text().toLowerCase();
-        userChoice.push('type='+ exType);
+        userChoice.push('type=' + exType.trim());
     }
     if ($("#muscle-main").text() !== 'Choose muscle group here') {
         muscle = $("#muscle-main").text().toLowerCase();
-        userChoice.push('muscle='+ muscle);
+        userChoice.push('muscle=' + muscle.trim());
     }
     if ($("#difficulty-main").text() !== 'Choose difficulty here') {
         difficulty = $("#difficulty-main").text().toLowerCase();
-        userChoice.push('difficulty='+ difficulty);
+        userChoice.push('difficulty=' + difficulty.trim());
     }
 
     var exNinApi;
-    if (userChoice.length > 0){
+    if (userChoice.length > 0) {
         exNinApi = baseURL + "?" + userChoice.join('&');
     } else {
         exNinApi = baseURL;
     }
-
-    console.log(exNinApi);
+    console.log(exNinApi)
+    // [feature/find-btn-gen] I added this return line
+    return exNinApi
 
 }
 // [feature/nav-to-instruction] start
@@ -160,9 +149,9 @@ function addExTitle() {
 }
 
 function addToRecents(exercise) {
-    var recentsArray=(JSON.parse(localStorage.getItem('recents')))||[]
+    var recentsArray = (JSON.parse(localStorage.getItem('recents'))) || []
     recentsArray.unshift(exercise)
-    localStorage.setItem('recents',JSON.stringify(recentsArray))
+    localStorage.setItem('recents', JSON.stringify(recentsArray))
 
 }
 
@@ -180,3 +169,41 @@ function displayRecentExercises(){
 displayRecentExercises();
 
 // [feature/nav-to-instruction] end
+
+// // Fetch the Exercise API data
+// [feature/find-btn-gen start] turning this into a function that can be called when needed
+function fetchEx(newUrl) {
+    fetch(newUrl, {
+        headers: {
+            'X-RapidAPI-Key': exNinApiKey,
+            'X-RapidAPI-Host': exNinApiHost
+        }
+    })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data)
+            // Stores data pulled via user query and stores it locally. 
+            storeFetchEx(data)
+            // Redirects to 'exercises' page
+            window.location.href = "pages/Exercises.html"
+        })
+}
+
+// Stores the data that fetchEx() will pull
+function storeFetchEx(data) {
+    localStorage.setItem('thisFetchEx', JSON.stringify(data))
+}
+// Retrieves the fetch data previously pulled
+function retrieveFetchEx() {
+    return JSON.parse(localStorage.getItem('thisFetchEx'))
+}
+
+// Since 'find ex' button will take us to a new page, I will need to run some functions specific to the exercise page on load:
+var userExList
+// Sets value of 'userExList' to whatever is pulled from local storage with retrieveFetchEx()
+userExList = retrieveFetchEx()
+// Generates list of exercises based on this set of data
+genExList(userExList)
+// [feature/find-btn-gen end]
