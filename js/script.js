@@ -40,7 +40,7 @@ fetch(exNinApi, {
     headers: {
         'X-RapidAPI-Key': exNinApiKey,
         'X-RapidAPI-Host': exNinApiHost
-    }
+    },
 })
     .then(function (response) {
         return response.json();
@@ -140,12 +140,13 @@ function updateExNinAPIUrl() {
 // [feature/nav-to-instruction] start
 resultsListEl.click(function (event) {
     var clickedEl = $(event.target)
-    if ((clickedEl.attr('class').includes('button'))===true){
-    var clickedName = clickedEl.attr('data-exercise')    
-    var instructHTML = '/pages/Instruct.html'    
-    localStorage.setItem('exercise-picked', clickedName)
-    window.location.replace(instructHTML)
-    }else {
+    if ((clickedEl.attr('class').includes('button'))) {
+        var clickedName = clickedEl.attr('data-exercise')
+        addToRecents(clickedName)
+        var instructHTML = '/pages/Instruct.html'
+        localStorage.setItem('exercise-picked', clickedName)
+        window.location.replace(instructHTML)
+    } else {
         console.log('not button')
         return
     }
@@ -156,5 +157,12 @@ function addExTitle() {
     var exNameHeader = $('#exercise-name-header')
     var pickedExercise = localStorage.getItem('exercise-picked')
     exNameHeader.text(pickedExercise)
+}
+
+function addToRecents(exercise) {
+    var recentsArray=(JSON.parse(localStorage.getItem('recents')))||[]
+    recentsArray.unshift(exercise)
+    localStorage.setItem('recents',JSON.stringify(recentsArray))
+
 }
 // [feature/nav-to-instruction] end
