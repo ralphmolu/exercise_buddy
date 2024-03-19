@@ -10,21 +10,25 @@
 </head>
 
 <body>
-    <nav>
-        <!-- Using words as placeholder for recent Exercise; will become icon -->
-        <i><img class="img logo-img" src="./images/logo.png" alt="Exercise buddy logo" width="5%"> </i>
-        <i>Recent Exercises</i>
-    </nav>
+    <section class=" is-flex is-flex-direction-column is-align-items-center" >
+        <nav class="is-flex">
+            <!-- Using words as placeholder for recent Exercise; will become icon -->
+            <i><img class="img logo-img" src="./images/logo.png" alt="Exercise buddy logo" width="5%"> </i>
+            <i>Recent Exercises</i>
+        </nav>
 
-    <h1 class="title"> Exercice Buddy</h1>
+        <h1 class="title"> Exercice Buddy</h1>
+    </section>
 
-    <label class="label"> Exercise Type: </label>
+    <section class=" is-flex is-flex-direction-column is-align-items-center" >
+
+    <label class="label mt-3"> Exercise Type: </label>
 
     <!-- in js file, once this is clicked, toggle class is-active to show and hide menu on clicking -->
     <div class="dropdown">
         <div class="dropdown-trigger">
             <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                <span>Choose exercise type Here</span>
+                <span id="ex-main">Choose exercise type Here</span>
                 <span class="icon is-small">
                     <i class="fas fa-angle-down" aria-hidden="true"></i>
                 </span>
@@ -57,13 +61,13 @@
         </div>
     </div>
 
-    <label class="label"> Muscle Group: </label>
+    <label class="label mt-3"> Muscle Group: </label>
 
     <!-- in js file, once this is clicked, toggle class is-active to show and hide menu on clicking -->
     <div class="dropdown">
         <div class="dropdown-trigger">
             <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                <span>Choose muscle group here</span>
+                <span id="muscle-main">Choose muscle group here</span>
                 <span class="icon is-small">
                     <i class="fas fa-angle-down" aria-hidden="true"></i>
                 </span>
@@ -122,13 +126,13 @@
         </div>
     </div>
 
-    <label class="label"> Difficulty: </label>
+    <label class="label mt-3"> Difficulty: </label>
 
     <!-- in js file, once this is clicked, toggle class is-active to show and hide menu on clicking -->
     <div class="dropdown">
         <div class="dropdown-trigger">
             <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                <span>Choose difficulty here</span>
+                <span id="diff-main">Choose difficulty here</span>
                 <span class="icon is-small">
                     <i class="fas fa-angle-down" aria-hidden="true"></i>
                 </span>
@@ -152,9 +156,9 @@
     </div>
 
     <div class="buttons">
-        <button class="button is-link is-light">Link</button>
-      </div>
-
+        <button class="button is-link mt-3">Find Exercises:</button>
+    </div>
+</section>
     <script src="https://kit.fontawesome.com/7b7cd6b3ef.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
