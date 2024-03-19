@@ -5,7 +5,7 @@ var ytAPI = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxRe
 var ytLink = 'https://www.youtube.com/watch?v='
 
 var exNinApiKey = '38bf2ea7dbmsh996e21bb45906dbp14c699jsn856b582ec0ba'
-// var muscle = 'neck'
+var muscle = 'neck'
 var exNinApi = 'https://exercises-by-api-ninjas.p.rapidapi.com/v1/exercises'
 var exNinApiHost = 'exercises-by-api-ninjas.p.rapidapi.com'
 var userChoice = [];
@@ -154,6 +154,20 @@ function addToRecents(exercise) {
     localStorage.setItem('recents', JSON.stringify(recentsArray))
 
 }
+
+// code to generate a list of recent exercises
+var recentExList = $('.recent-exercise-list');
+function displayRecentExercises(){
+    var recentsArray = localStorage.getItem('recents');
+    console.log(recentsArray);
+    for (var i=0; i<recentsArray.length; i++){
+        var recentExercise = recentsArray[i];
+        var recentExEl = $('<li>').text(recentExercise)
+        recentExList.append(recentExEl);
+    }
+}
+displayRecentExercises();
+
 // [feature/nav-to-instruction] end
 
 // // Fetch the Exercise API data
