@@ -78,11 +78,12 @@ var resultsListEl = $('#results-list')
 // This var will hold the 10 matches based on user criteria. At the moment, the matching functionality has not been created.
 var exList
 
-
+// [feature/find-btn-gen] Added the 'data-index' attribute
 function genExList(data) {
     data.forEach(function (result) {
+        var index= data.indexOf(result)
         // Text of each list item/button will be the title of the exercise. 
-        var resultButtonEl = $('<button>').text(result.name).attr('data-exercise', result.name).addClass('button is-link m-2 exercise-list-item')
+        var resultButtonEl = $('<button>').text(result.name).attr('data-exercise', result.name).attr('data-index', index).addClass('button is-link m-2 exercise-list-item')
         resultsListEl.append(resultButtonEl)
     })
 }
@@ -161,20 +162,26 @@ function fetchEx(newUrl) {
         })
         .then(function (data) {
             console.log(data)
+            // Stores data pulled via user query and stores it locally. 
             storeFetchEx(data)
+            // Redirects to 'exercises' page
             window.location.href = "pages/Exercises.html"
         })
 }
 
+// Stores the data that fetchEx() will pull
 function storeFetchEx(data) {
     localStorage.setItem('thisFetchEx', JSON.stringify(data))
 }
+// Retrieves the fetch data previously pulled
 function retrieveFetchEx() {
     return JSON.parse(localStorage.getItem('thisFetchEx'))
 }
 
 // Since 'find ex' button will take us to a new page, I will need to run some functions specific to the exercise page on load:
 var userExList
+// Sets value of 'userExList' to whatever is pulled from local storage with retrieveFetchEx()
 userExList=retrieveFetchEx()
+// Generates list of exercises based on this set of data
 genExList(userExList)
 // [feature/find-btn-gen end]
