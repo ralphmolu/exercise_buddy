@@ -26,7 +26,8 @@ function parseVidIds(data) {
     })
 }
 // Fetch the YT API data
-fetch(ytAPI)
+function fetchYT() {
+    fetch(ytAPI)
     .then(function (response) {
         return response.json();
     })
@@ -34,24 +35,7 @@ fetch(ytAPI)
         console.log(data)
         parseVidIds(data)
     })
-
-// Fetch the Exercise API data
-fetch(exNinApi, {
-    headers: {
-        'X-RapidAPI-Key': exNinApiKey,
-        'X-RapidAPI-Host': exNinApiHost
-    },
-})
-    .then(function (response) {
-        return response.json();
-    })
-    .then(function (data) {
-        console.log(data)
-        // TEMPORARY: Using the following two lines to test functionality of exercise list generator
-        exList = data
-        genExList()
-    })
-
+}
 
 //event Listeners for the drop down menus in the HomePage
 $(document).ready(function () {
@@ -97,7 +81,7 @@ var exList
 // [feature/find-btn-gen] Added the 'data-index' attribute
 function genExList(data) {
     data.forEach(function (result) {
-        var index= data.indexOf(result)
+        var index = data.indexOf(result)
         // Text of each list item/button will be the title of the exercise. 
         var resultButtonEl = $('<button>').text(result.name).attr('data-exercise', result.name).attr('data-index', index).addClass('button is-link m-2 exercise-list-item')
         resultsListEl.append(resultButtonEl)
@@ -165,9 +149,9 @@ function addExTitle() {
 }
 
 function addToRecents(exercise) {
-    var recentsArray=(JSON.parse(localStorage.getItem('recents')))||[]
+    var recentsArray = (JSON.parse(localStorage.getItem('recents'))) || []
     recentsArray.unshift(exercise)
-    localStorage.setItem('recents',JSON.stringify(recentsArray))
+    localStorage.setItem('recents', JSON.stringify(recentsArray))
 
 }
 // [feature/nav-to-instruction] end
@@ -205,7 +189,7 @@ function retrieveFetchEx() {
 // Since 'find ex' button will take us to a new page, I will need to run some functions specific to the exercise page on load:
 var userExList
 // Sets value of 'userExList' to whatever is pulled from local storage with retrieveFetchEx()
-userExList=retrieveFetchEx()
+userExList = retrieveFetchEx()
 // Generates list of exercises based on this set of data
 genExList(userExList)
 // [feature/find-btn-gen end]
