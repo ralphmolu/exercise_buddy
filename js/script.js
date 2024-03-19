@@ -26,16 +26,32 @@ function parseVidIds(data) {
     })
 }
 // Fetch the YT API data
-function fetchYT() {
-    fetch(ytAPI)
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            console.log(data)
-            parseVidIds(data)
-        })
-}
+fetch(ytAPI)
+    .then(function (response) {
+        return response.json();
+    })
+    .then(function (data) {
+        console.log(data)
+        parseVidIds(data)
+    })
+
+// Fetch the Exercise API data
+fetch(exNinApi, {
+    headers: {
+        'X-RapidAPI-Key': exNinApiKey,
+        'X-RapidAPI-Host': exNinApiHost
+    },
+})
+    .then(function (response) {
+        return response.json();
+    })
+    .then(function (data) {
+        console.log(data)
+        // TEMPORARY: Using the following two lines to test functionality of exercise list generator
+        exList = data
+        genExList()
+    })
+
 
 //event Listeners for the drop down menus in the HomePage
 $(document).ready(function () {
@@ -129,8 +145,9 @@ function updateExNinAPIUrl() {
 // [feature/nav-to-instruction] start
 resultsListEl.click(function (event) {
     var clickedEl = $(event.target)
-    if ((clickedEl.attr('class').includes('button')) === true) {
+    if ((clickedEl.attr('class').includes('button'))) {
         var clickedName = clickedEl.attr('data-exercise')
+        addToRecents(clickedName)
         var instructHTML = '/pages/Instruct.html'
         localStorage.setItem('exercise-picked', clickedName)
         window.location.replace(instructHTML)
@@ -145,6 +162,13 @@ function addExTitle() {
     var exNameHeader = $('#exercise-name-header')
     var pickedExercise = localStorage.getItem('exercise-picked')
     exNameHeader.text(pickedExercise)
+}
+
+function addToRecents(exercise) {
+    var recentsArray=(JSON.parse(localStorage.getItem('recents')))||[]
+    recentsArray.unshift(exercise)
+    localStorage.setItem('recents',JSON.stringify(recentsArray))
+
 }
 // [feature/nav-to-instruction] end
 
