@@ -5,9 +5,10 @@ var ytAPI = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxRe
 var ytLink = 'https://www.youtube.com/watch?v='
 
 var exNinApiKey = '38bf2ea7dbmsh996e21bb45906dbp14c699jsn856b582ec0ba'
-var muscle = 'neck'
-var exNinApi = 'https://exercises-by-api-ninjas.p.rapidapi.com/v1/exercises?muscle=' + muscle
+// var muscle = 'neck'
+var exNinApi = 'https://exercises-by-api-ninjas.p.rapidapi.com/v1/exercises'
 var exNinApiHost = 'exercises-by-api-ninjas.p.rapidapi.com'
+var userChoice = [];
 
 var exNameHeader = $('#exercise-name-header')
 
@@ -63,16 +64,23 @@ $(document).ready(function () {
     })
 
     //event listener on drop-down item to populate main drop down with clicked item
-    $(".dropdown-item").click(function(){
+    $(".dropdown-item").click(function () {
         var dropdownItemText = $(this).text();
         $(this).closest(".dropdown").removeClass("is-active").find("button span").eq(0).text(dropdownItemText);
     })
 
     //collapse dropdown(s) when clicking away from them
-    $(document).click(function(event){
-        if (!$(event.target).closest(".dropdown").length){
+    $(document).click(function (event) {
+        if (!$(event.target).closest(".dropdown").length) {
             $(".dropdown").removeClass("is-active");
         }
+    })
+
+    //eventlistener for find exercises button
+    $("#find-ex-btn").click(function(){
+        updateExNinAPIUrl();
+
+        // window.location.href = "./Exercises.html"
     })
 
 })
@@ -96,6 +104,39 @@ function genExList() {
 
 // [feature/gen-ex-list] end
 
+//update API based on user choices
+function updateExNinAPIUrl() {
+    var baseURL = `https://exercises-by-api-ninjas.p.rapidapi.com/v1/exercises`;
+    userChoice = []; // empty array that will store user choices
+
+    var exType = "";
+    var muscle = "";
+    var difficulty = "";
+
+    //check the text in the main/default dropdown box and store it in variables
+    if ($("#ex-main").text() !== 'Choose exercise type here') {
+        exType = $("#ex-main").text().toLowerCase();
+        userChoice.push('type='+ exType);
+    }
+    if ($("#muscle-main").text() !== 'Choose muscle group here') {
+        muscle = $("#muscle-main").text().toLowerCase();
+        userChoice.push('muscle='+ muscle);
+    }
+    if ($("#difficulty-main").text() !== 'Choose difficulty here') {
+        difficulty = $("#difficulty-main").text().toLowerCase();
+        userChoice.push('difficulty='+ difficulty);
+    }
+
+    var exNinApi;
+    if (userChoice.length > 0){
+        exNinApi = baseURL + "?" + userChoice.join('&');
+    } else {
+        exNinApi = baseURL;
+    }
+
+    console.log(exNinApi);
+
+}
 // [feature/nav-to-instruction] start
 resultsListEl.click(function (event) {
     var clickedEl = $(event.target)
