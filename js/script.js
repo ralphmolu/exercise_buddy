@@ -132,7 +132,7 @@ resultsListEl.click(function (event) {
     if ((clickedEl.attr('class').includes('button'))) {
         var clickedName = clickedEl.attr('data-exercise')
         addToRecents(clickedName)
-        var instructHTML = '/pages/Instruct.html'
+        var instructHTML = './Instruct.html'
         localStorage.setItem('exercise-picked', clickedName)
         window.location.replace(instructHTML)
     } else {
