@@ -28,13 +28,13 @@ function parseVidIds(data) {
 // Fetch the YT API data
 function fetchYT() {
     fetch(ytAPI)
-    .then(function (response) {
-        return response.json();
-    })
-    .then(function (data) {
-        console.log(data)
-        parseVidIds(data)
-    })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data)
+            parseVidIds(data)
+        })
 }
 
 //event Listeners for the drop down menus in the HomePage
@@ -157,10 +157,10 @@ function addToRecents(exercise) {
 
 // code to generate a list of recent exercises
 var recentExList = $('.recent-exercise-list');
-function displayRecentExercises(){
-    var recentsArray = JSON.parse(localStorage.getItem('recents'))||[];
+function displayRecentExercises() {
+    var recentsArray = JSON.parse(localStorage.getItem('recents')) || [];
     console.log(recentsArray);
-    for (var i=0; i<recentsArray.length; i++){
+    for (var i = 0; i < recentsArray.length; i++) {
         var recentExercise = recentsArray[i];
         var recentExEl = $('<li>').text(recentExercise)
         recentExList.append(recentExEl);
@@ -210,10 +210,15 @@ genExList(userExList)
 
 // [feature/rec-ex-btn] start
 
-var recExBtnEl= $('#rec-ex-btn')
+var recExBtnEl = $('.rec-ex-btn')
 
-recExBtnEl.click(function(){
+recExBtnEl.click(function () {
     console.log('btn clicked!')
-    var recExPage= 'pages/recent-exercises.html'
+    var recExPage
+    if (window.location.pathname.includes('pages')) {
+        recExPage = './recent-exercises.html'
+    } else {
+        recExPage = 'pages/recent-exercises.html'
+    }
     window.location.replace(recExPage)
 })
