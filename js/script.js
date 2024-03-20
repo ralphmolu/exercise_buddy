@@ -223,3 +223,9 @@ recExBtnEl.click(function () {
     }
     window.location.replace(recExPage)
 })
+
+//event listener on the logo image such that the user is redirected to Home when the logo is clicked
+
+$('.logo-img').click(function(){
+    window.location.href = '../index.html';
+})
