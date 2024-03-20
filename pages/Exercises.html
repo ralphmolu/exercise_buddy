@@ -12,16 +12,32 @@
 </head>
 
 <body id="body-ex">
-    <section id="nav-title" class="is-flex is-flex-direction-column is-align-items-center mb-3">
-        <nav class="is-flex">
-            <!-- Using words as placeholder for recent Exercise; will become icon -->
-            <i><img class="img logo-img" src="../images/logo.png" alt="Exercise buddy logo" width="5%"> </i>
-            <i class="rec-ex-btn">Recent Exercises</i>
-        </nav>
+    <nav class="navbar is-dark navbar-brand is-flex is-justify-content-space-between mb-5" role="navigation"
+        aria-label="main navigation">
+        <a class="navbar-item">
+            <span class="icon-text has-text-info">
+                <span class="icon">
+                    <i class="fa-solid fa-house"></i>
+                </span>
+                <span>Home</span>
+            </span>
+        </a>
 
-        <h1 class="title is-1"> Exercise Buddy</h1>
-    </section>
+        <a class="navbar-item">
+            <span class="icon-text has-text-info" style="color: white;">
+                <span class="icon">
+                    <i class="fa-solid fa-rotate-left"></i>
+                </span>
+                <span>Recent</span>
+            </span>
+        </a>
+    </nav>
     
+    <div class="is-flex is-flex-direction-column is-align-items-center">
+        <h1 class="title is-1"> Exercice Buddy</h1>
+    </div>
+    
+
     <!-- danrcross: branch: feature/exercise-page -->
     <!-- Section for 'Exercises:' page, listing results of user input(s) -->
     <div id="replaceable">
