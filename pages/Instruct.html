@@ -11,14 +11,26 @@
 </head>
 
 <body id="body-ex">
-    <section id="nav-title" class="is-flex is-flex-direction-column is-align-items-center mb-3">
-        <nav class="is-flex">
-            <!-- Using words as placeholder for recent Exercise; will become icon -->
-            <i><img class="img logo-img" src="../images/logo.png" alt="Exercise buddy logo" width="5%"> </i>
-            <i class="rec-ex-btn">Recent Exercises</i>
-        </nav>
-    </section>
+    <nav class="navbar is-dark navbar-brand is-flex is-justify-content-space-between mb-5" role="navigation"
+        aria-label="main navigation">
+        <a class="navbar-item">
+            <span class="icon-text has-text-info">
+                <span class="icon">
+                    <i class="fa-solid fa-house"></i>
+                </span>
+                <span>Home</span>
+            </span>
+        </a>
 
+        <a class="navbar-item">
+            <span class="icon-text has-text-info" style="color: white;">
+                <span class="icon">
+                    <i class="fa-solid fa-rotate-left"></i>
+                </span>
+                <span>Recent</span>
+            </span>
+        </a>
+    </nav>
     <!-- Instructions page goes here: -->
     <section id="instruct-page" class="is-flex is-flex-direction-column is-align-items-center">
         <h1 id="exercise-name-header" class="title is-1"></h1>
@@ -26,19 +38,20 @@
 
     <article class="message is-medium" style="margin-left: 250px; margin-right: 250px; margin-top: 100px;">
         <div class="message-header is-flex is-justify-content-center" style="background-color: #2e76cb;">
-          <p>Instructions</p>
+            <p>Instructions</p>
         </div>
         <div class="message-body">
-          <ol>
-            <li> one </li>
-            <li> two </li>
-            <li> two </li>
-          </ol>
+            <ol>
+                <li> one </li>
+                <li> two </li>
+                <li> two </li>
+            </ol>
         </div>
-      </article>
+    </article>
 
     <section>
-        <div class="container is-fluid" style="padding-left: 250px; padding-right: 250px; margin-top: 100px; margin-bottom: 100px;">
+        <div class="container is-fluid"
+            style="padding-left: 250px; padding-right: 250px; margin-top: 100px; margin-bottom: 100px;">
             <div class="notification is-primary" style="background-color: #2e76cb; padding: 15px;">
                 <figure class="image is-16by9">
                     <iframe class="has-ratio" width="640" height="360" src="https://www.youtube.com/embed/YE7VzlLtp-4"

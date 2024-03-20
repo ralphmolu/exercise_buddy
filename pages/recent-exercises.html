@@ -9,20 +9,36 @@
 </head>
 
 <body>
-    <nav class = "is-flex is-justify-content-space-between">
-        <!-- Using words as placeholder for recent Exercise; will become icon -->
-        <i><img class="img logo-img" src="../images/logo.png" alt="Exercise buddy logo" width="5%"> </i>
-        <!-- made Home a clickable link to navigate to home.html page -->
-        <a href="../index.html"><button class="button is-text">Home</a></button>
+    <nav class="navbar is-dark navbar-brand is-flex is-justify-content-space-between mb-5" role="navigation"
+        aria-label="main navigation">
+        <a class="navbar-item">
+            <span class="icon-text has-text-info">
+                <span class="icon">
+                    <i class="fa-solid fa-house"></i>
+                </span>
+                <span>Home</span>
+            </span>
+        </a>
+
+        <a class="navbar-item">
+            <span class="icon-text has-text-info" style="color: white;">
+                <span class="icon">
+                    <i class="fa-solid fa-rotate-left"></i>
+                </span>
+                <span>Recent</span>
+            </span>
+        </a>
     </nav>
+
     <div class="is-flex is-flex-direction-column is-align-items-center">
         <header class="title"> Recent Exercises</header>
         <ul class="recent-exercise-list"></ul>
     </div>
-<!-- copied script links from original home page for uniformity throughout project-->
+    <!-- copied script links from original home page for uniformity throughout project-->
     <script src="https://kit.fontawesome.com/7b7cd6b3ef.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="../js/script.js"></script>
 </body>
+
 </html>
