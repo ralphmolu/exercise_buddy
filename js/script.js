@@ -158,7 +158,10 @@ function addToRecents(exercise) {
 // code to generate a list of recent exercises
 var recentExList = $('.recent-exercise-list');
 function displayRecentExercises(){
+
+    
     var recentsArray = JSON.parse(localStorage.getItem('recents'))||[];
+
     console.log(recentsArray);
     for (var i=0; i<recentsArray.length; i++){
         var recentExercise = recentsArray[i];
