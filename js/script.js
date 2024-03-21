@@ -226,10 +226,11 @@ recExBtnEl.click(function () {
 
 //event listener on the logo image such that the user is redirected to Home when the logo is clicked
 
-$('.icon-text').click(function(){
+$('.home').click(function(){
     window.location.href = '../index.html';
 })
 
-$('.icon-text').click(function(){
-    window.location.href = 'pages/recent-exercises.html';
+$('.recent').click(function(){
+    window.location.href = 'recent-exercises.html';
 })
+
