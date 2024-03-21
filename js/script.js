@@ -158,13 +158,33 @@ function addToRecents(exercise) {
 // code to generate a list of recent exercises
 var recentExList = $('.recent-exercise-list');
 function displayRecentExercises(){
-    var recentsArray = localStorage.getItem('recents');
+    var recentsArray = JSON.parse(localStorage.getItem('recents'))||[];
     console.log(recentsArray);
+
     for (var i=0; i<recentsArray.length; i++){
         var recentExercise = recentsArray[i];
-        var recentExEl = $('<li>').text(recentExercise)
+        var recentExEl = $('<li>').text(recentExercise);
         recentExList.append(recentExEl);
+        $('li').css({"list-style-type":"circle", "color":"#2e76cb", "font-size":"1.2rem"});
     }
+
+    //function displays reset button on recent exercises page if array is not empty
+    function displayResetBtn(){
+        if (!(recentsArray.length===0)){
+            $('#resetBtn').css("visibility", "visible")
+        } else if (recentsArray.length===0){
+            $('#resetBtn').css("visibility", "hidden")
+        }
+    }
+    displayResetBtn()
+
+    //when button is clicked: localStorage, recentExList, and recentsArray are cleared
+    $('#resetBtn').on("click", function(){
+        localStorage.removeItem('recents')
+        recentExList.html('')
+        recentsArray= []
+        $('#resetBtn').css("visibility", "hidden")
+    } );
 }
 displayRecentExercises();
 
@@ -207,3 +227,13 @@ userExList = retrieveFetchEx()
 // Generates list of exercises based on this set of data
 genExList(userExList)
 // [feature/find-btn-gen end]
+
+// [feature/rec-ex-btn] start
+
+var recExBtnEl= $('#rec-ex-btn')
+
+recExBtnEl.click(function(){
+    console.log('btn clicked!')
+    var recExPage= 'pages/recent-exercises.html'
+    window.location.replace(recExPage)
+})

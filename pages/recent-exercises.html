@@ -6,22 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recent Exercises</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <style> 
+    </style>
 </head>
 
 <body>
     <nav class="is-flex is-justify-content-space-between">
         <!-- Using words as placeholder for recent Exercise; will become icon -->
-        <i><img class="img logo-img" src="./images/logo.png" alt="Exercise buddy logo" width="5%"> </i>
+        <i><img class="img logo-img" src="../images/logo.png" alt="Exercise buddy logo" width="5%"> </i>
+        <!-- made Home a clickable link to navigate to home.html page -->
+        <a href="../index.html"><button class="button is-text">Home</a></button>
     </nav>
     <div class="is-flex is-flex-direction-column is-align-items-center">
         <header class="title"> Recent Exercises</header>
-        <ul class="recent-exercise-list"></ul>
+        <ul class="is-flex is-flex-direction-column recent-exercise-list"></ul>
+        <div>
+            <button id="resetBtn" type="button">Clear</button> <!--style="visibility: hidden-->
+        </div>
     </div>
+    
            
 <!-- copied script links from original home page for uniformity throughout project-->
     <script src="https://kit.fontawesome.com/7b7cd6b3ef.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="./js/script.js"></script>
+    <script src="../js/script.js"></script>
 </body>
 </html>
