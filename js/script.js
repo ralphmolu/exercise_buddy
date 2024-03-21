@@ -229,3 +229,7 @@ recExBtnEl.click(function () {
 $('.icon-text').click(function(){
     window.location.href = '../index.html';
 })
+
+$('.icon-text').click(function(){
+    window.location.href = 'pages/recent-exercises.html';
+})
