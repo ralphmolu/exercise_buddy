@@ -175,9 +175,8 @@ function displayRecentExercises(){
 
     for (var i=0; i<recentsArray.length; i++){
         var recentExercise = recentsArray[i];
-        var recentExEl = $('<li>').text(recentExercise);
+        var recentExEl = $('<li>').text(recentExercise).css({"list-style-type":"circle", "color":"#2e76cb", "font-size":"1.2rem"});
         recentExList.append(recentExEl);
-        $('li').css({"list-style-type":"circle", "color":"#2e76cb", "font-size":"1.2rem"});
     }
 
     //function displays reset button on recent exercises page if array is not empty
@@ -257,14 +256,10 @@ recExBtnEl.click(function () {
 
 //event listener on the logo image such that the user is redirected to Home when the logo is clicked
 
-<<<<<<< HEAD
-$('.home').click(function(){
-=======
 
 $('.icon-text').click(function(){
 
 
->>>>>>> main
     window.location.href = '../index.html';
 })
 
