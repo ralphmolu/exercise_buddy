@@ -68,6 +68,28 @@ $(document).ready(function () {
 
     })
 
+    // display exercise instructions
+    function displayExerciseInstructions (){
+        var exInstruct = JSON.parse(localStorage.getItem('exercise-picked')) // retreve the object stored in the local storage
+    
+        //ensure local storage object has elements
+        if(exInstruct && exInstruct.instructions){
+            var splitInstructions = exInstruct.instruction.split('.');
+            var instructionBodyEl = $('instructions-body');
+    
+            //empty current instructions list
+            instructionBodyEl.empty();
+    
+            splitInstructions.forEach(function(eachInstruction){
+                eachInstruction = eachInstruction.trim()
+    
+                var instructionEl = $('<li>').text(eachInstruction);
+                instructionBodyEl.append(instructionEl);
+            })
+    
+        }
+    }
+
 })
 
 // [feature/gen-ex-list] start
