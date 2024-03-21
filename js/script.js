@@ -28,13 +28,13 @@ function parseVidIds(data) {
 // Fetch the YT API data
 function fetchYT() {
     fetch(ytAPI)
-    .then(function (response) {
-        return response.json();
-    })
-    .then(function (data) {
-        console.log(data)
-        parseVidIds(data)
-    })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data)
+            parseVidIds(data)
+        })
 }
 
 //event Listeners for the drop down menus in the HomePage
@@ -132,7 +132,7 @@ resultsListEl.click(function (event) {
     if ((clickedEl.attr('class').includes('button'))) {
         var clickedName = clickedEl.attr('data-exercise')
         addToRecents(clickedName)
-        var instructHTML = '/pages/Instruct.html'
+        var instructHTML = './Instruct.html'
         localStorage.setItem('exercise-picked', clickedName)
         window.location.replace(instructHTML)
     } else {
@@ -230,10 +230,21 @@ genExList(userExList)
 
 // [feature/rec-ex-btn] start
 
-var recExBtnEl= $('#rec-ex-btn')
+var recExBtnEl = $('.rec-ex-btn')
 
-recExBtnEl.click(function(){
+recExBtnEl.click(function () {
     console.log('btn clicked!')
-    var recExPage= 'pages/recent-exercises.html'
+    var recExPage
+    if (window.location.pathname.includes('pages')) {
+        recExPage = './recent-exercises.html'
+    } else {
+        recExPage = 'pages/recent-exercises.html'
+    }
     window.location.replace(recExPage)
+})
+
+//event listener on the logo image such that the user is redirected to Home when the logo is clicked
+
+$('.logo-img').click(function(){
+    window.location.href = '../index.html';
 })
