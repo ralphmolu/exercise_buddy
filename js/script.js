@@ -80,12 +80,15 @@ var exList
 
 // [feature/find-btn-gen] Added the 'data-index' attribute
 function genExList(data) {
-    data.forEach(function (result) {
-        var index = data.indexOf(result)
-        // Text of each list item/button will be the title of the exercise. 
-        var resultButtonEl = $('<button>').text(result.name).attr('data-exercise', result.name).attr('data-index', index).addClass('button is-link m-2 exercise-list-item')
-        resultsListEl.append(resultButtonEl)
-    })
+    if (data) {
+        data.forEach(function (result) {
+            var index = data.indexOf(result)
+            // Text of each list item/button will be the title of the exercise. 
+            var resultButtonEl = $('<button>').text(result.name).attr('data-exercise', result.name).attr('data-index', index).addClass('button is-link m-2 exercise-list-item')
+            resultsListEl.append(resultButtonEl)
+        })
+    } else {
+    }
 }
 
 // [feature/gen-ex-list] end
@@ -130,10 +133,15 @@ function updateExNinAPIUrl() {
 resultsListEl.click(function (event) {
     var clickedEl = $(event.target)
     if ((clickedEl.attr('class').includes('button'))) {
-        var clickedName = clickedEl.attr('data-exercise')
-        addToRecents(clickedName)
+        var i = clickedEl.attr('data-index')
+        var exData = {
+            name: userExList[i].name,
+            instructions: userExList[i].instructions
+        }
+        console.log(exData)
+        addToRecents(exData)
         var instructHTML = './Instruct.html'
-        localStorage.setItem('exercise-picked', clickedName)
+        localStorage.setItem('exercise-picked', JSON.stringify(exData))
         window.location.replace(instructHTML)
     } else {
         console.log('not button')
@@ -144,8 +152,12 @@ resultsListEl.click(function (event) {
 addExTitle()
 function addExTitle() {
     var exNameHeader = $('#exercise-name-header')
-    var pickedExercise = localStorage.getItem('exercise-picked')
-    exNameHeader.text(pickedExercise)
+    var pickedExercise = JSON.parse(localStorage.getItem('exercise-picked'))
+    if (pickedExercise) {
+        exNameHeader.text(pickedExercise.name)
+    } else {
+        return
+    }
 }
 
 function addToRecents(exercise) {
@@ -226,6 +238,6 @@ recExBtnEl.click(function () {
 
 //event listener on the logo image such that the user is redirected to Home when the logo is clicked
 
-$('.logo-img').click(function(){
+$('.logo-img').click(function () {
     window.location.href = '../index.html';
 })
