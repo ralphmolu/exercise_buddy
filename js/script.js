@@ -117,13 +117,14 @@ resultsListEl.click(function (event) {
         return
     }
 })
-
+addExTitle()
 // works doubly as a function that will create title for page, and also return the name of the exercise to be stored in object for YT search
 function addExTitle() {
     var exNameHeader = $('#exercise-name-header')
-    var pickedExercise = localStorage.getItem('exercise-picked')
-    exNameHeader.text(pickedExercise)
-    return pickedExercise
+    var pickedExercise = JSON.parse(localStorage.getItem('exercise-picked'))
+    exNameHeader.text(pickedExercise.name)
+    console.log(pickedExercise.name)
+    return pickedExercise.name
 }
 
 function addToRecents(exercise) {
@@ -135,37 +136,35 @@ function addToRecents(exercise) {
 
 // code to generate a list of recent exercises
 var recentExList = $('.recent-exercise-list');
+
 function displayRecentExercises() {
     var recentsArray = JSON.parse(localStorage.getItem('recents')) || [];
-    for (var i = 0; i < recentsArray.length; i++) {
-function displayRecentExercises(){
-    var recentsArray = JSON.parse(localStorage.getItem('recents'))||[];
     console.log(recentsArray);
 
-    for (var i=0; i<recentsArray.length; i++){
+    for (var i = 0; i < recentsArray.length; i++) {
         var recentExercise = recentsArray[i];
         var recentExEl = $('<li>').text(recentExercise);
         recentExList.append(recentExEl);
-        $('li').css({"list-style-type":"circle", "color":"#2e76cb", "font-size":"1.2rem"});
+        $('li').css({ "list-style-type": "circle", "color": "#2e76cb", "font-size": "1.2rem" });
     }
 
     //function displays reset button on recent exercises page if array is not empty
-    function displayResetBtn(){
-        if (!(recentsArray.length===0)){
+    function displayResetBtn() {
+        if (!(recentsArray.length === 0)) {
             $('#resetBtn').css("visibility", "visible")
-        } else if (recentsArray.length===0){
+        } else if (recentsArray.length === 0) {
             $('#resetBtn').css("visibility", "hidden")
         }
     }
     displayResetBtn()
 
     //when button is clicked: localStorage, recentExList, and recentsArray are cleared
-    $('#resetBtn').on("click", function(){
+    $('#resetBtn').on("click", function () {
         localStorage.removeItem('recents')
         recentExList.html('')
-        recentsArray= []
+        recentsArray = []
         $('#resetBtn').css("visibility", "hidden")
-    } );
+    });
 }
 displayRecentExercises();
 
@@ -226,15 +225,17 @@ recExBtnEl.click(function () {
 
 //event listener on the logo image such that the user is redirected to Home when the logo is clicked
 
-$('.home').click(function(){
+$('.home').click(function () {
 
-$('.icon-text').click(function(){
+})
+
+$('.icon-text').click(function () {
 
 
     window.location.href = '../index.html';
 })
 
-$('.recent').click(function(){
+$('.recent').click(function () {
     window.location.href = 'recent-exercises.html';
 })
 
@@ -354,4 +355,5 @@ vidSelect.click(function (event) {
 if (document.location.pathname === '/pages/Instruct.html') {
     fetchYT(validAPIKey)
 }
-// [feature/embed-yt] end
+
+// [feature/embed-yt]
