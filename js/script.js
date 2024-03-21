@@ -135,17 +135,14 @@ function addToRecents(exercise) {
 
 // code to generate a list of recent exercises
 var recentExList = $('.recent-exercise-list');
-<<<<<<< HEAD
 function displayRecentExercises() {
     var recentsArray = JSON.parse(localStorage.getItem('recents')) || [];
     for (var i = 0; i < recentsArray.length; i++) {
-=======
 function displayRecentExercises(){
     var recentsArray = JSON.parse(localStorage.getItem('recents'))||[];
     console.log(recentsArray);
 
     for (var i=0; i<recentsArray.length; i++){
->>>>>>> main
         var recentExercise = recentsArray[i];
         var recentExEl = $('<li>').text(recentExercise);
         recentExList.append(recentExEl);
@@ -229,18 +226,20 @@ recExBtnEl.click(function () {
 
 //event listener on the logo image such that the user is redirected to Home when the logo is clicked
 
-<<<<<<< HEAD
 $('.home').click(function(){
-=======
 
 $('.icon-text').click(function(){
 
 
->>>>>>> main
     window.location.href = '../index.html';
 })
 
-<<<<<<< HEAD
+$('.recent').click(function(){
+    window.location.href = 'recent-exercises.html';
+})
+
+
+
 // [feature/embed-yt] start
 
 // Global vars
@@ -356,9 +355,3 @@ if (document.location.pathname === '/pages/Instruct.html') {
     fetchYT(validAPIKey)
 }
 // [feature/embed-yt] end
-=======
-$('.recent').click(function(){
-    window.location.href = 'recent-exercises.html';
-})
-
->>>>>>> main
