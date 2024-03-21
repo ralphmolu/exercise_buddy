@@ -1,9 +1,3 @@
-var ytAPIKeyDan = 'AIzaSyB9d1Cst7FLimdflVD7dDzQFe6k09qyzsE';
-var ytAPIKeyRalph = 'AIzaSyDN2x7IWfitTATr3ByxdWJnBLycKq_T19k';
-var searchQuery = 'drake'
-var ytAPI = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=${searchQuery}&key=${ytAPIKeyRalph}`
-var ytLink = 'https://www.youtube.com/watch?v='
-
 var exNinApiKey = '38bf2ea7dbmsh996e21bb45906dbp14c699jsn856b582ec0ba'
 var muscle = 'neck'
 var exNinApi = 'https://exercises-by-api-ninjas.p.rapidapi.com/v1/exercises'
@@ -11,31 +5,6 @@ var exNinApiHost = 'exercises-by-api-ninjas.p.rapidapi.com'
 var userChoice = [];
 
 var exNameHeader = $('#exercise-name-header')
-
-// Info on search queries here: https://developers.google.com/youtube/v3/docs/search/list#usage. click on '</>' icon by 'list (by keyword)
-
-function parseVidIds(data) {
-    data.items.forEach(function (video) {
-        var videoId = video.id.videoId
-        var videoTitle = video.snippet.title
-        if (video.id.kind === 'youtube#video') {
-            console.log(videoTitle + ": " + (ytLink + videoId))
-        } else {
-            return
-        }
-    })
-}
-// Fetch the YT API data
-function fetchYT() {
-    fetch(ytAPI)
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            console.log(data)
-            parseVidIds(data)
-        })
-}
 
 //event Listeners for the drop down menus in the HomePage
 $(document).ready(function () {
@@ -141,11 +110,12 @@ resultsListEl.click(function (event) {
     }
 })
 
-addExTitle()
+// works doubly as a function that will create title for page, and also return the name of the exercise to be stored in object for YT search
 function addExTitle() {
     var exNameHeader = $('#exercise-name-header')
     var pickedExercise = localStorage.getItem('exercise-picked')
     exNameHeader.text(pickedExercise)
+    return pickedExercise
 }
 
 function addToRecents(exercise) {
@@ -159,8 +129,6 @@ function addToRecents(exercise) {
 var recentExList = $('.recent-exercise-list');
 function displayRecentExercises() {
     var recentsArray = JSON.parse(localStorage.getItem('recents')) || [];
-
-    console.log(recentsArray);
     for (var i = 0; i < recentsArray.length; i++) {
         var recentExercise = recentsArray[i];
         var recentExEl = $('<li>').text(recentExercise)
@@ -226,6 +194,88 @@ recExBtnEl.click(function () {
 
 //event listener on the logo image such that the user is redirected to Home when the logo is clicked
 
-$('.logo-img').click(function(){
+$('.logo-img').click(function () {
     window.location.href = '../index.html';
 })
+
+// [feature/embed-yt] start
+
+// Global vars
+var ytAPIKeyDan = 'AIzaSyB9d1Cst7FLimdflVD7dDzQFe6k09qyzsE';
+var ytAPIKeyRalph = 'AIzaSyDN2x7IWfitTATr3ByxdWJnBLycKq_T19k';
+var ytLink = 'https://www.youtube.com/watch?v='
+var vidSrcEl = $('#vid-el')
+var vidSelect = $('#vid-select')
+var vidId
+
+// Will fetch list of YT vids; getVidIds() will sort data, store locally; getFirstVid() will return the first vid for the exercise at top of page; embedNewVid() will embed that video based on its id.
+function fetchYT() {
+    // going to do something to the exercise string...
+    var exercise = addExTitle()
+    console.log(exercise)
+    var exQuery = exercise    
+        .toLowerCase()
+        .replaceAll(' ', '+')
+    console.log(exQuery)
+    var ytAPI = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=${exQuery}&type=video&key=${ytAPIKeyDan}`
+    console.log(ytAPI)
+    fetch(ytAPI)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data)
+            getVidIds(data, exercise)
+            // will later grab exercise from page and embed vid based on that; will replace 'exNamePH' with 'exercise'
+            var firstVid = getFirstVid(exercise)
+            embedNewVid(firstVid.id)
+            popVidSelect(exercise)
+        })
+}
+
+// Gets video names/ids for the exercise; to be part of the fetch function, taking fetched data and storing locally
+function getVidIds(data, exercise) {
+    var exVidsArray = []
+    data.items.forEach(function (video) {
+        vidData = {
+            name: video.snippet.title,
+            id: video.id.videoId
+        }
+        exVidsArray.push(vidData)
+    })
+    localStorage.setItem(exercise, JSON.stringify(exVidsArray))
+}
+
+// After being fetched for the exercise, everything else will be done from local storage:
+function getFirstVid(exercise) {
+    var exVidsArray = JSON.parse(localStorage.getItem(exercise))
+    return exVidsArray[0]
+}
+
+function embedNewVid(vidId) {
+    var ytVid = 'https://www.youtube.com/embed/' + vidId
+    vidSrcEl.attr('src', ytVid)
+}
+
+function popVidSelect(exercise) {
+    var exVidsArray = JSON.parse(localStorage.getItem(exercise))
+    exVidsArray.forEach(function (video) {
+        var vidOpt = $('<a>').text(video.name).attr('data-id', video.id).addClass('dropdown-item vid-opt')
+        vidSelect.append(vidOpt)
+    })
+}
+
+vidSelect.click(function (event) {
+    var clicked = $(event.target)
+    if (clicked.hasClass('vid-opt')) {
+        var vidId = clicked.attr('data-id')
+        embedNewVid(vidId)
+    }
+})
+
+// Check if I am on correct page before doing YT pull: 
+if (document.location.pathname === '/pages/Instruct.html') {
+    fetchYT()
+}
+
+// [feature/embed-yt] end
