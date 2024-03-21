@@ -28,13 +28,13 @@ function parseVidIds(data) {
 // Fetch the YT API data
 function fetchYT() {
     fetch(ytAPI)
-    .then(function (response) {
-        return response.json();
-    })
-    .then(function (data) {
-        console.log(data)
-        parseVidIds(data)
-    })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data)
+            parseVidIds(data)
+        })
 }
 
 //event Listeners for the drop down menus in the HomePage
@@ -80,12 +80,15 @@ var exList
 
 // [feature/find-btn-gen] Added the 'data-index' attribute
 function genExList(data) {
-    data.forEach(function (result) {
-        var index = data.indexOf(result)
-        // Text of each list item/button will be the title of the exercise. 
-        var resultButtonEl = $('<button>').text(result.name).attr('data-exercise', result.name).attr('data-index', index).addClass('button is-link m-2 exercise-list-item')
-        resultsListEl.append(resultButtonEl)
-    })
+    if (data) {
+        data.forEach(function (result) {
+            var index = data.indexOf(result)
+            // Text of each list item/button will be the title of the exercise. 
+            var resultButtonEl = $('<button>').text(result.name).attr('data-exercise', result.name).attr('data-index', index).addClass('button is-link m-2 exercise-list-item')
+            resultsListEl.append(resultButtonEl)
+        })
+    } else {
+    }
 }
 
 // [feature/gen-ex-list] end
@@ -130,10 +133,15 @@ function updateExNinAPIUrl() {
 resultsListEl.click(function (event) {
     var clickedEl = $(event.target)
     if ((clickedEl.attr('class').includes('button'))) {
-        var clickedName = clickedEl.attr('data-exercise')
-        addToRecents(clickedName)
-        var instructHTML = '/pages/Instruct.html'
-        localStorage.setItem('exercise-picked', clickedName)
+        var i = clickedEl.attr('data-index')
+        var exData = {
+            name: userExList[i].name,
+            instructions: userExList[i].instructions
+        }
+        console.log(exData)
+        addToRecents(exData)
+        var instructHTML = './Instruct.html'
+        localStorage.setItem('exercise-picked', JSON.stringify(exData))
         window.location.replace(instructHTML)
     } else {
         console.log('not button')
@@ -144,8 +152,12 @@ resultsListEl.click(function (event) {
 addExTitle()
 function addExTitle() {
     var exNameHeader = $('#exercise-name-header')
-    var pickedExercise = localStorage.getItem('exercise-picked')
-    exNameHeader.text(pickedExercise)
+    var pickedExercise = JSON.parse(localStorage.getItem('exercise-picked'))
+    if (pickedExercise) {
+        exNameHeader.text(pickedExercise.name)
+    } else {
+        return
+    }
 }
 
 function addToRecents(exercise) {
@@ -157,10 +169,11 @@ function addToRecents(exercise) {
 
 // code to generate a list of recent exercises
 var recentExList = $('.recent-exercise-list');
-function displayRecentExercises(){
-    var recentsArray = localStorage.getItem('recents');
+function displayRecentExercises() {
+    var recentsArray = JSON.parse(localStorage.getItem('recents')) || [];
+
     console.log(recentsArray);
-    for (var i=0; i<recentsArray.length; i++){
+    for (var i = 0; i < recentsArray.length; i++) {
         var recentExercise = recentsArray[i];
         var recentExEl = $('<li>').text(recentExercise)
         recentExList.append(recentExEl);
@@ -207,3 +220,31 @@ userExList = retrieveFetchEx()
 // Generates list of exercises based on this set of data
 genExList(userExList)
 // [feature/find-btn-gen end]
+
+// [feature/rec-ex-btn] start
+
+var recExBtnEl = $('.rec-ex-btn')
+
+recExBtnEl.click(function () {
+    console.log('btn clicked!')
+    var recExPage
+    if (window.location.pathname.includes('pages')) {
+        recExPage = './recent-exercises.html'
+    } else {
+        recExPage = 'pages/recent-exercises.html'
+    }
+    window.location.replace(recExPage)
+})
+
+//event listener on the logo image such that the user is redirected to Home when the logo is clicked
+
+
+$('.icon-text').click(function(){
+
+
+    window.location.href = '../index.html';
+})
+
+$('.icon-text').click(function(){
+    window.location.href = 'pages/recent-exercises.html';
+})

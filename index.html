@@ -10,155 +10,170 @@
 </head>
 
 <body>
-    <section class=" is-flex is-flex-direction-column is-align-items-center" >
-        <nav class="is-flex">
-            <!-- Using words as placeholder for recent Exercise; will become icon -->
-            <i><img class="img logo-img" src="./images/logo.png" alt="Exercise buddy logo" width="5%"> </i>
-            <i>Recent Exercises</i>
-        </nav>
+    <nav class="navbar is-dark navbar-brand is-flex is-justify-content-space-between mb-5" role="navigation"
+        aria-label="main navigation">
+        <a class="navbar-item">
+            <span class="icon-text has-text-info">
+                <span class="icon">
+                    <i class="fa-solid fa-house"></i>
+                </span>
+                <span>Home</span>
+            </span>
+        </a>
 
+        <a class="navbar-item">
+            <span class="icon-text has-text-info" style="color: white;">
+                <span class="icon">
+                    <i class="fa-solid fa-rotate-left"></i>
+                </span>
+                <span>Recent</span>
+            </span>
+        </a>
+    </nav>
+    <div class="is-flex is-flex-direction-column is-align-items-center">
         <h1 class="title"> Exercice Buddy</h1>
+    </div>
+
+
+    <section class=" is-flex is-flex-direction-column is-align-items-center">
+
+        <label class="label mt-3"> Exercise Type: </label>
+
+        <!-- in js file, once this is clicked, toggle class is-active to show and hide menu on clicking -->
+        <div class="dropdown">
+            <div class="dropdown-trigger">
+                <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                    <span id="ex-main">Choose exercise type here</span>
+                    <span class="icon is-small">
+                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                </button>
+            </div>
+            <div class="dropdown-menu" id="dropdown-menu" role="menu">
+
+                <!-- define logic to toggle class dropdown-item is active clasee on mouseover -->
+                <div class="dropdown-content">
+                    <a href="#" class="dropdown-item">
+                        Cardio
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        Olympic Weightlifting
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        Plyometrics
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        Strength
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        Stretching
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        Strongman
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+        <label class="label mt-3"> Muscle Group: </label>
+
+        <!-- in js file, once this is clicked, toggle class is-active to show and hide menu on clicking -->
+        <div class="dropdown">
+            <div class="dropdown-trigger">
+                <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                    <span id="muscle-main">Choose muscle group here</span>
+                    <span class="icon is-small">
+                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                </button>
+            </div>
+            <div class="dropdown-menu" id="dropdown-menu" role="menu">
+
+                <!-- define logic to toggle class dropdown-item is active clasee on mouseover -->
+                <div class="dropdown-content">
+                    <a href="#" class="dropdown-item">
+                        Abdominals
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        Abductors
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        Biceps
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        Calves
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        Chest
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        Forearms
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        Glutes
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        Hamstrings
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        Lats
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        Lower Back
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        Middle Back
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        Neck
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        Quadriceps
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        Traps
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        Triceps
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <label class="label mt-3"> Difficulty: </label>
+
+        <!-- in js file, once this is clicked, toggle class is-active to show and hide menu on clicking -->
+        <div class="dropdown">
+            <div class="dropdown-trigger">
+                <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                    <span id="difficulty-main">Choose difficulty here</span>
+                    <span class="icon is-small">
+                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                </button>
+            </div>
+            <div class="dropdown-menu" id="dropdown-menu" role="menu">
+
+                <!-- define logic to toggle class dropdown-item is active clasee on mouseover -->
+                <div class="dropdown-content">
+                    <a href="#" class="dropdown-item">
+                        Beginner
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        Intermediate
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        Expert
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button id="find-ex-btn" class="button is-link mt-3">Find Exercises:</button>
+        </div>
     </section>
-
-    <section class=" is-flex is-flex-direction-column is-align-items-center" >
-
-    <label class="label mt-3"> Exercise Type: </label>
-
-    <!-- in js file, once this is clicked, toggle class is-active to show and hide menu on clicking -->
-    <div class="dropdown">
-        <div class="dropdown-trigger">
-            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                <span id="ex-main">Choose exercise type here</span>
-                <span class="icon is-small">
-                    <i class="fas fa-angle-down" aria-hidden="true"></i>
-                </span>
-            </button>
-        </div>
-        <div class="dropdown-menu" id="dropdown-menu" role="menu">
-
-            <!-- define logic to toggle class dropdown-item is active clasee on mouseover -->
-            <div class="dropdown-content">
-                <a href="#" class="dropdown-item">
-                    Cardio
-                </a>
-                <a href="#" class="dropdown-item">
-                    Olympic Weightlifting
-                </a>
-                <a href="#" class="dropdown-item">
-                    Plyometrics
-                </a>
-                <a href="#" class="dropdown-item">
-                    Strength
-                </a>
-                <a href="#" class="dropdown-item">
-                    Stretching
-                </a>
-                <a href="#" class="dropdown-item">
-                    Strongman
-                </a>
-
-            </div>
-        </div>
-    </div>
-
-    <label class="label mt-3"> Muscle Group: </label>
-
-    <!-- in js file, once this is clicked, toggle class is-active to show and hide menu on clicking -->
-    <div class="dropdown">
-        <div class="dropdown-trigger">
-            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                <span id="muscle-main">Choose muscle group here</span>
-                <span class="icon is-small">
-                    <i class="fas fa-angle-down" aria-hidden="true"></i>
-                </span>
-            </button>
-        </div>
-        <div class="dropdown-menu" id="dropdown-menu" role="menu">
-
-            <!-- define logic to toggle class dropdown-item is active clasee on mouseover -->
-            <div class="dropdown-content">
-                <a href="#" class="dropdown-item">
-                    Abdominals
-                </a>
-                <a href="#" class="dropdown-item">
-                    Abductors
-                </a>
-                <a href="#" class="dropdown-item">
-                    Biceps
-                </a>
-                <a href="#" class="dropdown-item">
-                    Calves
-                </a>
-                <a href="#" class="dropdown-item">
-                    Chest
-                </a>
-                <a href="#" class="dropdown-item">
-                    Forearms
-                </a>
-                <a href="#" class="dropdown-item">
-                    Glutes
-                </a>
-                <a href="#" class="dropdown-item">
-                    Hamstrings
-                </a>
-                <a href="#" class="dropdown-item">
-                    Lats
-                </a>
-                <a href="#" class="dropdown-item">
-                    Lower Back
-                </a>
-                <a href="#" class="dropdown-item">
-                    Middle Back
-                </a>
-                <a href="#" class="dropdown-item">
-                    Neck
-                </a>
-                <a href="#" class="dropdown-item">
-                    Quadriceps
-                </a>
-                <a href="#" class="dropdown-item">
-                    Traps
-                </a>
-                <a href="#" class="dropdown-item">
-                    Triceps
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <label class="label mt-3"> Difficulty: </label>
-
-    <!-- in js file, once this is clicked, toggle class is-active to show and hide menu on clicking -->
-    <div class="dropdown">
-        <div class="dropdown-trigger">
-            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                <span id="difficulty-main">Choose difficulty here</span>
-                <span class="icon is-small">
-                    <i class="fas fa-angle-down" aria-hidden="true"></i>
-                </span>
-            </button>
-        </div>
-        <div class="dropdown-menu" id="dropdown-menu" role="menu">
-
-            <!-- define logic to toggle class dropdown-item is active clasee on mouseover -->
-            <div class="dropdown-content">
-                <a href="#" class="dropdown-item">
-                    Beginner
-                </a>
-                <a href="#" class="dropdown-item">
-                    Intermediate
-                </a>
-                <a href="#" class="dropdown-item">
-                    Expert
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <div class="buttons">
-        <button id = "find-ex-btn" class="button is-link mt-3">Find Exercises:</button>
-    </div>
-</section>
     <script src="https://kit.fontawesome.com/7b7cd6b3ef.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
