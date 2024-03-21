@@ -137,11 +137,8 @@ function addToRecents(exercise) {
 var recentExList = $('.recent-exercise-list');
 function displayRecentExercises() {
     var recentsArray = JSON.parse(localStorage.getItem('recents')) || [];
-    for (var i = 0; i < recentsArray.length; i++) {
-function displayRecentExercises(){
-    var recentsArray = JSON.parse(localStorage.getItem('recents'))||[];
     console.log(recentsArray);
-
+    
     for (var i=0; i<recentsArray.length; i++){
         var recentExercise = recentsArray[i];
         var recentExEl = $('<li>').text(recentExercise).css({"list-style-type":"circle", "color":"#2e76cb", "font-size":"1.2rem"});
