@@ -41,7 +41,7 @@
             <p>Instructions</p>
         </div>
         <div class="message-body">
-            <ol>
+            <ol class = "instruction-body">
                 <li> one </li>
                 <li> two </li>
                 <li> two </li>
@@ -54,11 +54,26 @@
             style="padding-left: 250px; padding-right: 250px; margin-top: 100px; margin-bottom: 100px;">
             <div class="notification is-primary" style="background-color: #2e76cb; padding: 15px;">
                 <figure class="image is-16by9">
-                    <iframe class="has-ratio" width="640" height="360" src="https://www.youtube.com/embed/YE7VzlLtp-4"
-                        frameborder="0" allowfullscreen></iframe>
+                    <iframe id='vid-el' class="has-ratio" width="640" height="360"
+                        src="" frameborder="0" allowfullscreen></iframe>
                 </figure>
             </div>
         </div>
+        <h4>Choose a video:</h4>
+        <div class="dropdown is-up">
+            <div class="dropdown-trigger">
+              <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                <span>Dropdown button</span>
+                <span class="icon is-small">
+                  <i class="fas fa-angle-down" aria-hidden="true"></i>
+                </span>
+              </button>
+            </div>
+            <div class="dropdown-menu" id="dropdown-menu" role="menu">
+              <div id='vid-select' class="dropdown-content">
+              </div>
+            </div>
+          </div>
     </section>
 
     <!-- [feature/exercise-page] -->
