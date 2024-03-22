@@ -3,6 +3,7 @@ var muscle = 'neck'
 var exNinApi = 'https://exercises-by-api-ninjas.p.rapidapi.com/v1/exercises'
 var exNinApiHost = 'exercises-by-api-ninjas.p.rapidapi.com'
 var userChoice = [];
+var exInstruct = JSON.parse(localStorage.getItem('exercise-picked')) || []; // retrieve the object stored in the local storage
 
 var exNameHeader = $('#exercise-name-header')
 
@@ -37,29 +38,40 @@ $(document).ready(function () {
 
     })
 
-    // display exercise instructions
-    function displayExerciseInstructions() {
-        var exInstruct = JSON.parse(localStorage.getItem('exercise-picked')) // retreve the object stored in the local storage
-
-        //ensure local storage object has elements
-        if (exInstruct && exInstruct.instructions) {
-            var splitInstructions = exInstruct.instruction.split('.');
-            var instructionBodyEl = $('instructions-body');
-
-            //empty current instructions list
-            instructionBodyEl.empty();
-
-            splitInstructions.forEach(function (eachInstruction) {
-                eachInstruction = eachInstruction.trim()
-
-                var instructionEl = $('<li>').text(eachInstruction);
-                instructionBodyEl.append(instructionEl);
-            })
-
-        }
-    }
+    
 
 })
+
+
+
+// display exercise instructions
+function displayExerciseInstructions() {
+    
+
+    //ensure local storage object has elements
+    if (exInstruct && exInstruct.instructions) {
+        
+        var splitInstructions = exInstruct.instructions.split('.');
+        
+        var instructionBodyEl = $('.instructions-body');
+
+        //empty current instructions list
+        instructionBodyEl.empty();
+
+        for (var i = 0; i<splitInstructions.length-2; i++){
+           var eachInstruction = splitInstructions[i].trim();
+           var instructionEl = $('<li>').text(eachInstruction);
+            instructionBodyEl.append(instructionEl);
+        }
+        // splitInstructions.forEach(function (eachInstruction) {
+        //     eachInstruction = eachInstruction.trim()
+
+        //     var instructionEl = $('<li>').text(eachInstruction);
+        //     instructionBodyEl.append(instructionEl);
+        // })
+
+    }
+}
 
 // [feature/gen-ex-list] start
 // Creating code to generate a list of 10 exercises based on user selection
@@ -120,6 +132,8 @@ function updateExNinAPIUrl() {
     return exNinApi
 
 }
+
+displayExerciseInstructions();
 // [feature/nav-to-instruction] start
 resultsListEl.click(function (event) {
     var clickedEl = $(event.target)
@@ -134,6 +148,7 @@ resultsListEl.click(function (event) {
         var instructHTML = './Instruct.html'
         localStorage.setItem('exercise-picked', JSON.stringify(exData))
         window.location.replace(instructHTML)
+        
     } else {
         console.log('not button')
         return
