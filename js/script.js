@@ -3,8 +3,31 @@ var muscle = 'neck'
 var exNinApi = 'https://exercises-by-api-ninjas.p.rapidapi.com/v1/exercises'
 var exNinApiHost = 'exercises-by-api-ninjas.p.rapidapi.com'
 var userChoice = [];
+var resultsListEl = $('#results-list')
+// This var will hold the 10 matches based on user criteria. At the moment, the matching functionality has not been created.
+var exList
+var exInstruct = JSON.parse(localStorage.getItem('exercise-picked')) || []; // retrieve the object stored in the local storage
+var recentExList = $('.recent-exercise-list');
+var exNameHeader = $('#exercise-name-header');
+// Since 'find ex' button will take us to a new page, I will need to run some functions specific to the exercise page on load:
+var userExList
+// Sets value of 'userExList' to whatever is pulled from local storage with retrieveFetchEx()
+userExList = retrieveFetchEx()
+var recExBtnEl = $('.rec-ex-btn')
+var ytAPIKeyDan = 'AIzaSyB9d1Cst7FLimdflVD7dDzQFe6k09qyzsE';
+var ytAPIKeyRalph = 'AIzaSyDN2x7IWfitTATr3ByxdWJnBLycKq_T19k';
+var ytAPIKeySandy = 'AIzaSyCoF7E6WQc0fEFE2hTPPf_nEn55mragl2Q';
+var ytAPIKeyAnna = 'empty'
+// Next 3 lines: create array of possible API keys, set index of default key, set working key to the key in the array that matches the key index
+var ytAPIKeyArray = [ytAPIKeyDan, ytAPIKeyRalph, ytAPIKeySandy, ytAPIKeyAnna]
+var keyIndex = 0
+var validAPIKey = ytAPIKeyArray[keyIndex]
 
-var exNameHeader = $('#exercise-name-header')
+var ytLink = 'https://www.youtube.com/watch?v='
+var vidSrcEl = $('#vid-el')
+var vidSelect = $('#vid-select')
+var vidId
+
 
 //event Listeners for the drop down menus in the HomePage
 $(document).ready(function () {
@@ -37,37 +60,41 @@ $(document).ready(function () {
 
     })
 
-    // display exercise instructions
-    function displayExerciseInstructions() {
-        var exInstruct = JSON.parse(localStorage.getItem('exercise-picked')) // retreve the object stored in the local storage
-
-        //ensure local storage object has elements
-        if (exInstruct && exInstruct.instructions) {
-            var splitInstructions = exInstruct.instruction.split('.');
-            var instructionBodyEl = $('instructions-body');
-
-            //empty current instructions list
-            instructionBodyEl.empty();
-
-            splitInstructions.forEach(function (eachInstruction) {
-                eachInstruction = eachInstruction.trim()
-
-                var instructionEl = $('<li>').text(eachInstruction);
-                instructionBodyEl.append(instructionEl);
-            })
-
-        }
-    }
+    
 
 })
+
+
+
+// display exercise instructions
+function displayExerciseInstructions() {
+    
+
+    //ensure local storage object has elements
+    if (exInstruct && exInstruct.instructions) {
+        
+        var splitInstructions = exInstruct.instructions.split('.');
+        
+        var instructionBodyEl = $('.instructions-body');
+
+        //empty current instructions list
+        instructionBodyEl.empty();
+
+        for (var i = 0; i<splitInstructions.length-2; i++){
+           var eachInstruction = splitInstructions[i].trim();
+           var instructionEl = $('<li>').text(eachInstruction);
+            instructionBodyEl.append(instructionEl);
+        }
+
+    }
+}
 
 // [feature/gen-ex-list] start
 // Creating code to generate a list of 10 exercises based on user selection
 
-var resultsListEl = $('#results-list')
 
-// This var will hold the 10 matches based on user criteria. At the moment, the matching functionality has not been created.
-var exList
+
+
 
 // [feature/find-btn-gen] Added the 'data-index' attribute
 function genExList(data) {
@@ -120,6 +147,8 @@ function updateExNinAPIUrl() {
     return exNinApi
 
 }
+
+displayExerciseInstructions();
 // [feature/nav-to-instruction] start
 resultsListEl.click(function (event) {
     var clickedEl = $(event.target)
@@ -134,6 +163,7 @@ resultsListEl.click(function (event) {
         var instructHTML = './Instruct.html'
         localStorage.setItem('exercise-picked', JSON.stringify(exData))
         window.location.replace(instructHTML)
+        
     } else {
         console.log('not button')
         return
@@ -161,8 +191,6 @@ function addToRecents(exercise) {
 }
 
 // code to generate a list of recent exercises
-var recentExList = $('.recent-exercise-list');
-
 function displayRecentExercises() {
     var recentsArray = JSON.parse(localStorage.getItem('recents')) || [];
     console.log(recentsArray);
@@ -192,6 +220,7 @@ function displayRecentExercises() {
         $('#resetBtn').css("visibility", "hidden")
     });
 }
+
 displayRecentExercises();
 
 // [feature/nav-to-instruction] end
@@ -226,17 +255,11 @@ function retrieveFetchEx() {
     return JSON.parse(localStorage.getItem('thisFetchEx'))
 }
 
-// Since 'find ex' button will take us to a new page, I will need to run some functions specific to the exercise page on load:
-var userExList
-// Sets value of 'userExList' to whatever is pulled from local storage with retrieveFetchEx()
-userExList = retrieveFetchEx()
 // Generates list of exercises based on this set of data
 genExList(userExList)
 // [feature/find-btn-gen end]
 
 // [feature/rec-ex-btn] start
-
-var recExBtnEl = $('.rec-ex-btn')
 
 recExBtnEl.click(function () {
     console.log('btn clicked!')
@@ -259,24 +282,7 @@ $('.recent').click(function () {
     window.location.href = 'recent-exercises.html';
 })
 
-
-
 // [feature/embed-yt] start
-
-// Global vars
-var ytAPIKeyDan = 'AIzaSyB9d1Cst7FLimdflVD7dDzQFe6k09qyzsE';
-var ytAPIKeyRalph = 'AIzaSyDN2x7IWfitTATr3ByxdWJnBLycKq_T19k';
-var ytAPIKeySandy = 'AIzaSyCoF7E6WQc0fEFE2hTPPf_nEn55mragl2Q';
-var ytAPIKeyAnna = 'empty'
-// Next 3 lines: create array of possible API keys, set index of default key, set working key to the key in the array that matches the key index
-var ytAPIKeyArray = [ytAPIKeyDan, ytAPIKeyRalph, ytAPIKeySandy, ytAPIKeyAnna]
-var keyIndex = 0
-var validAPIKey = ytAPIKeyArray[keyIndex]
-
-var ytLink = 'https://www.youtube.com/watch?v='
-var vidSrcEl = $('#vid-el')
-var vidSelect = $('#vid-select')
-var vidId
 
 // Will fetch list of YT vids; getVidIds() will sort data, store locally; getFirstVid() will return the first vid for the exercise at top of page; embedNewVid() will embed that video based on its id.
 function fetchYT(validAPIKey) {
