@@ -259,6 +259,7 @@ recExBtnEl.click(function () {
 
 
 $('.home').click(function(){
+    console.log("anything")
     window.location.href = '../index.html';
 })
 
