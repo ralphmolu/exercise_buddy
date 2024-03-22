@@ -60,352 +60,326 @@ $(document).ready(function () {
 
     })
 
-<<<<<<< HEAD
+})
+
+
     // display exercise instructions
     function displayExerciseInstructions() {
-        var exInstruct = JSON.parse(localStorage.getItem('exercise-picked')) // retreve the object stored in the local storage
+
 
         //ensure local storage object has elements
         if (exInstruct && exInstruct.instructions) {
-            var splitInstructions = exInstruct.instruction.split('.');
-            var instructionBodyEl = $('instructions-body');
+
+            var splitInstructions = exInstruct.instructions.split('.');
+
+            var instructionBodyEl = $('.instructions-body');
 
             //empty current instructions list
             instructionBodyEl.empty();
 
-            splitInstructions.forEach(function (eachInstruction) {
-                eachInstruction = eachInstruction.trim()
-
+            for (var i = 0; i < splitInstructions.length - 2; i++) {
+                var eachInstruction = splitInstructions[i].trim();
                 var instructionEl = $('<li>').text(eachInstruction);
                 instructionBodyEl.append(instructionEl);
+            }
+
+        }
+    }
+
+    // [feature/gen-ex-list] start
+    // Creating code to generate a list of 10 exercises based on user selection
+
+
+
+
+
+    // [feature/find-btn-gen] Added the 'data-index' attribute
+    function genExList(data) {
+        if (data) {
+            data.forEach(function (result) {
+                var index = data.indexOf(result)
+                // Text of each list item/button will be the title of the exercise. 
+                var resultButtonEl = $('<button>').text(result.name).attr('data-exercise', result.name).attr('data-index', index).addClass('button is-link m-2 exercise-list-item')
+                resultsListEl.append(resultButtonEl)
             })
-
-        }
-    }
-=======
-    
->>>>>>> main
-
-})
-
-
-
-// display exercise instructions
-function displayExerciseInstructions() {
-    
-
-    //ensure local storage object has elements
-    if (exInstruct && exInstruct.instructions) {
-        
-        var splitInstructions = exInstruct.instructions.split('.');
-        
-        var instructionBodyEl = $('.instructions-body');
-
-        //empty current instructions list
-        instructionBodyEl.empty();
-
-        for (var i = 0; i<splitInstructions.length-2; i++){
-           var eachInstruction = splitInstructions[i].trim();
-           var instructionEl = $('<li>').text(eachInstruction);
-            instructionBodyEl.append(instructionEl);
-        }
-
-    }
-}
-
-// [feature/gen-ex-list] start
-// Creating code to generate a list of 10 exercises based on user selection
-
-
-
-
-
-// [feature/find-btn-gen] Added the 'data-index' attribute
-function genExList(data) {
-    if (data) {
-        data.forEach(function (result) {
-            var index = data.indexOf(result)
-            // Text of each list item/button will be the title of the exercise. 
-            var resultButtonEl = $('<button>').text(result.name).attr('data-exercise', result.name).attr('data-index', index).addClass('button is-link m-2 exercise-list-item')
-            resultsListEl.append(resultButtonEl)
-        })
-    } else {
-    }
-}
-
-// [feature/gen-ex-list] end
-
-
-// [feature/find-btn-gen] I added .trim(). Don't forget to remove, as this is Ralph's code
-//update API based on user choices
-function updateExNinAPIUrl() {
-    var baseURL = `https://exercises-by-api-ninjas.p.rapidapi.com/v1/exercises`;
-    userChoice = []; // empty array that will store user choices
-
-    var exType = "";
-    var muscle = "";
-    var difficulty = "";
-
-    //check the text in the main/default dropdown box and store it in variables
-    if ($("#ex-main").text() !== 'Choose exercise type here') {
-        exType = $("#ex-main").text().toLowerCase();
-        userChoice.push('type=' + exType.trim());
-    }
-    if ($("#muscle-main").text() !== 'Choose muscle group here') {
-        muscle = $("#muscle-main").text().toLowerCase();
-        userChoice.push('muscle=' + muscle.trim());
-    }
-    if ($("#difficulty-main").text() !== 'Choose difficulty here') {
-        difficulty = $("#difficulty-main").text().toLowerCase();
-        userChoice.push('difficulty=' + difficulty.trim());
-    }
-
-    var exNinApi;
-    if (userChoice.length > 0) {
-        exNinApi = baseURL + "?" + userChoice.join('&');
-    } else {
-        exNinApi = baseURL;
-    }
-    console.log(exNinApi)
-    // [feature/find-btn-gen] I added this return line
-    return exNinApi
-
-}
-
-displayExerciseInstructions();
-// [feature/nav-to-instruction] start
-resultsListEl.click(function (event) {
-    var clickedEl = $(event.target)
-    if ((clickedEl.attr('class').includes('button'))) {
-        var i = clickedEl.attr('data-index')
-        var exData = {
-            name: userExList[i].name,
-            instructions: userExList[i].instructions
-        }
-        console.log(exData)
-        addToRecents(exData)
-        var instructHTML = './Instruct.html'
-        localStorage.setItem('exercise-picked', JSON.stringify(exData))
-        window.location.replace(instructHTML)
-        
-    } else {
-        console.log('not button')
-        return
-    }
-})
-addExTitle()
-// works doubly as a function that will create title for page, and also return the name of the exercise to be stored in object for YT search
-function addExTitle() {
-    var exNameHeader = $('#exercise-name-header')
-    var pickedExercise = JSON.parse(localStorage.getItem('exercise-picked')) || ''
-    if (pickedExercise) {
-        exNameHeader.text(pickedExercise.name)
-        console.log(pickedExercise.name)
-        return pickedExercise.name
-    } else {
-        return pickedExercise
-    }
-}
-
-function addToRecents(exercise) {
-    var recentsArray = (JSON.parse(localStorage.getItem('recents'))) || []
-    recentsArray.unshift(exercise)
-    localStorage.setItem('recents', JSON.stringify(recentsArray))
-
-}
-
-// code to generate a list of recent exercises
-function displayRecentExercises() {
-    var recentsArray = JSON.parse(localStorage.getItem('recents')) || [];
-    console.log(recentsArray);
-
-    for (var i = 0; i < recentsArray.length; i++) {
-        var recentExercise = recentsArray[i];
-        var recentExEl = $('<li>').text(recentExercise);
-        recentExList.append(recentExEl);
-        $('li').css({ "list-style-type": "circle", "color": "#2e76cb", "font-size": "1.2rem" });
-    }
-
-    //function displays reset button on recent exercises page if array is not empty
-    function displayResetBtn() {
-        if (!(recentsArray.length === 0)) {
-            $('#resetBtn').css("visibility", "visible")
-        } else if (recentsArray.length === 0) {
-            $('#resetBtn').css("visibility", "hidden")
-        }
-    }
-    displayResetBtn()
-
-    //when button is clicked: localStorage, recentExList, and recentsArray are cleared
-    $('#resetBtn').on("click", function () {
-        localStorage.removeItem('recents')
-        recentExList.html('')
-        recentsArray = []
-        $('#resetBtn').css("visibility", "hidden")
-    });
-}
-
-displayRecentExercises();
-
-// [feature/nav-to-instruction] end
-
-// // Fetch the Exercise API data
-// [feature/find-btn-gen start] turning this into a function that can be called when needed
-function fetchEx(newUrl) {
-    fetch(newUrl, {
-        headers: {
-            'X-RapidAPI-Key': exNinApiKey,
-            'X-RapidAPI-Host': exNinApiHost
-        }
-    })
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            console.log(data)
-            // Stores data pulled via user query and stores it locally. 
-            storeFetchEx(data)
-            // Redirects to 'exercises' page
-            window.location.href = "pages/Exercises.html"
-        })
-}
-
-// Stores the data that fetchEx() will pull
-function storeFetchEx(data) {
-    localStorage.setItem('thisFetchEx', JSON.stringify(data))
-}
-// Retrieves the fetch data previously pulled
-function retrieveFetchEx() {
-    return JSON.parse(localStorage.getItem('thisFetchEx'))
-}
-
-// Generates list of exercises based on this set of data
-genExList(userExList)
-// [feature/find-btn-gen end]
-
-// [feature/rec-ex-btn] start
-
-recExBtnEl.click(function () {
-    console.log('btn clicked!')
-    var recExPage
-    if (window.location.pathname.includes('pages')) {
-        recExPage = './recent-exercises.html'
-    } else {
-        recExPage = 'pages/recent-exercises.html'
-    }
-    window.location.replace(recExPage)
-})
-
-//event listener on the logo image such that the user is redirected to Home when the logo is clicked
-
-$('.home').click(function () {
-    window.location.href = '../index.html';
-})
-
-$('.recent').click(function () {
-    window.location.href = 'recent-exercises.html';
-})
-
-// [feature/embed-yt] start
-
-// Will fetch list of YT vids; getVidIds() will sort data, store locally; getFirstVid() will return the first vid for the exercise at top of page; embedNewVid() will embed that video based on its id.
-function fetchYT(validAPIKey) {
-    // going to do something to the exercise string...
-    var exercise = addExTitle()
-    if (exercise) {
-        console.log(exercise)
-        // checks if exercise's video ids are already in local storage. if yes, page can be populated successfully w/o using API!
-        if (localStorage.getItem(exercise)) {
-            console.log('included')
-            var firstVid = getFirstVid(exercise)
-            embedNewVid(firstVid.id)
-            popVidSelect(exercise)
         } else {
-            var exQuery = exercise
-                .toLowerCase()
-                .replaceAll(' ', '+')
-            console.log(exQuery)
-            var ytAPI = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=${exQuery}&type=video&key=${validAPIKey}`
-            console.log(ytAPI)
-            var endFetch
-            fetch(ytAPI)
-                .then(function (response) {
-                    // conditional checks to see if there is an error with the fetch; if there is, it should be because the API key's quota has been reached
-                    // Will end the fetch if this is the case; if no error, continue with fetch
-                    if (!response.ok) {
-                        console.log('API key quota reached')
-                        endFetch = true
-                        return
-                    } else {
-                        return response.json();
-                    }
-                })
-                .then(function (data) {
-                    // Again, if fetch results in error, keyIndex is incremented, so as to move to next key, and is set as the new valid key.
-                    // fetchYT function is run again with the new valid key, which should result in a successful fetch. If not, the cycle repeats.
-                    if (endFetch) {
-                        console.log('ready to end')
-                        keyIndex++
-                        console.log(keyIndex)
-                        validAPIKey = ytAPIKeyArray[keyIndex]
-                        console.log(validAPIKey)
-                        fetchYT(validAPIKey)
-                    } else {
-                        console.log(data)
-                        getVidIds(data, exercise)
-                        // will later grab exercise from page and embed vid based on that; will replace 'exNamePH' with 'exercise'
-                        var firstVid = getFirstVid(exercise)
-                        embedNewVid(firstVid.id)
-                        popVidSelect(exercise)
-                    }
-                })
         }
     }
-}
 
-// Gets video names/ids for the exercise; to be part of the fetch function, taking fetched data and storing locally
-function getVidIds(data, exercise) {
-    var exVidsArray = []
-    data.items.forEach(function (video) {
-        vidData = {
-            name: video.snippet.title,
-            id: video.id.videoId
+    // [feature/gen-ex-list] end
+
+
+    // [feature/find-btn-gen] I added .trim(). Don't forget to remove, as this is Ralph's code
+    //update API based on user choices
+    function updateExNinAPIUrl() {
+        var baseURL = `https://exercises-by-api-ninjas.p.rapidapi.com/v1/exercises`;
+        userChoice = []; // empty array that will store user choices
+
+        var exType = "";
+        var muscle = "";
+        var difficulty = "";
+
+        //check the text in the main/default dropdown box and store it in variables
+        if ($("#ex-main").text() !== 'Choose exercise type here') {
+            exType = $("#ex-main").text().toLowerCase();
+            userChoice.push('type=' + exType.trim());
         }
-        exVidsArray.push(vidData)
-    })
-    localStorage.setItem(exercise, JSON.stringify(exVidsArray))
-}
+        if ($("#muscle-main").text() !== 'Choose muscle group here') {
+            muscle = $("#muscle-main").text().toLowerCase();
+            userChoice.push('muscle=' + muscle.trim());
+        }
+        if ($("#difficulty-main").text() !== 'Choose difficulty here') {
+            difficulty = $("#difficulty-main").text().toLowerCase();
+            userChoice.push('difficulty=' + difficulty.trim());
+        }
 
-// After being fetched for the exercise, everything else will be done from local storage:
-function getFirstVid(exercise) {
-    var exVidsArray = JSON.parse(localStorage.getItem(exercise))
-    return exVidsArray[0]
-}
+        var exNinApi;
+        if (userChoice.length > 0) {
+            exNinApi = baseURL + "?" + userChoice.join('&');
+        } else {
+            exNinApi = baseURL;
+        }
+        console.log(exNinApi)
+        // [feature/find-btn-gen] I added this return line
+        return exNinApi
 
-function embedNewVid(vidId) {
-    var ytVid = 'https://www.youtube.com/embed/' + vidId
-    vidSrcEl.attr('src', ytVid)
-}
-
-function popVidSelect(exercise) {
-    var exVidsArray = JSON.parse(localStorage.getItem(exercise))
-    exVidsArray.forEach(function (video) {
-        var vidOpt = $('<a>').text(video.name).attr('data-id', video.id).addClass('dropdown-item vid-opt')
-        vidSelect.append(vidOpt)
-    })
-}
-
-vidSelect.click(function (event) {
-    var clicked = $(event.target)
-    if (clicked.hasClass('vid-opt')) {
-        var vidId = clicked.attr('data-id')
-        embedNewVid(vidId)
     }
-})
+
+    displayExerciseInstructions();
+    // [feature/nav-to-instruction] start
+    resultsListEl.click(function (event) {
+        var clickedEl = $(event.target)
+        if ((clickedEl.attr('class').includes('button'))) {
+            var i = clickedEl.attr('data-index')
+            var exData = {
+                name: userExList[i].name,
+                instructions: userExList[i].instructions
+            }
+            console.log(exData)
+            addToRecents(exData)
+            var instructHTML = './Instruct.html'
+            localStorage.setItem('exercise-picked', JSON.stringify(exData))
+            window.location.replace(instructHTML)
+
+        } else {
+            console.log('not button')
+            return
+        }
+    })
+    addExTitle()
+    // works doubly as a function that will create title for page, and also return the name of the exercise to be stored in object for YT search
+    function addExTitle() {
+        var exNameHeader = $('#exercise-name-header')
+        var pickedExercise = JSON.parse(localStorage.getItem('exercise-picked')) || ''
+        if (pickedExercise) {
+            exNameHeader.text(pickedExercise.name)
+            console.log(pickedExercise.name)
+            return pickedExercise.name
+        } else {
+            return pickedExercise
+        }
+    }
+
+    function addToRecents(exercise) {
+        var recentsArray = (JSON.parse(localStorage.getItem('recents'))) || []
+        recentsArray.unshift(exercise)
+        localStorage.setItem('recents', JSON.stringify(recentsArray))
+
+    }
+
+    // code to generate a list of recent exercises
+    function displayRecentExercises() {
+        var recentsArray = JSON.parse(localStorage.getItem('recents')) || [];
+        console.log(recentsArray);
+
+        for (var i = 0; i < recentsArray.length; i++) {
+            var recentExercise = recentsArray[i];
+            var recentExEl = $('<li>').text(recentExercise);
+            recentExList.append(recentExEl);
+            $('li').css({ "list-style-type": "circle", "color": "#2e76cb", "font-size": "1.2rem" });
+        }
+
+        //function displays reset button on recent exercises page if array is not empty
+        function displayResetBtn() {
+            if (!(recentsArray.length === 0)) {
+                $('#resetBtn').css("visibility", "visible")
+            } else if (recentsArray.length === 0) {
+                $('#resetBtn').css("visibility", "hidden")
+            }
+        }
+        displayResetBtn()
+
+        //when button is clicked: localStorage, recentExList, and recentsArray are cleared
+        $('#resetBtn').on("click", function () {
+            localStorage.removeItem('recents')
+            recentExList.html('')
+            recentsArray = []
+            $('#resetBtn').css("visibility", "hidden")
+        });
+    }
+
+    displayRecentExercises();
+
+    // [feature/nav-to-instruction] end
+
+    // // Fetch the Exercise API data
+    // [feature/find-btn-gen start] turning this into a function that can be called when needed
+    function fetchEx(newUrl) {
+        fetch(newUrl, {
+            headers: {
+                'X-RapidAPI-Key': exNinApiKey,
+                'X-RapidAPI-Host': exNinApiHost
+            }
+        })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                console.log(data)
+                // Stores data pulled via user query and stores it locally. 
+                storeFetchEx(data)
+                // Redirects to 'exercises' page
+                window.location.href = "pages/Exercises.html"
+            })
+    }
+
+    // Stores the data that fetchEx() will pull
+    function storeFetchEx(data) {
+        localStorage.setItem('thisFetchEx', JSON.stringify(data))
+    }
+    // Retrieves the fetch data previously pulled
+    function retrieveFetchEx() {
+        return JSON.parse(localStorage.getItem('thisFetchEx'))
+    }
+
+    // Generates list of exercises based on this set of data
+    genExList(userExList)
+    // [feature/find-btn-gen end]
+
+    // [feature/rec-ex-btn] start
+
+    recExBtnEl.click(function () {
+        console.log('btn clicked!')
+        var recExPage
+        if (window.location.pathname.includes('pages')) {
+            recExPage = './recent-exercises.html'
+        } else {
+            recExPage = 'pages/recent-exercises.html'
+        }
+        window.location.replace(recExPage)
+    })
+
+    //event listener on the logo image such that the user is redirected to Home when the logo is clicked
+
+    $('.home').click(function () {
+        window.location.href = '../index.html';
+    })
+
+    $('.recent').click(function () {
+        window.location.href = 'recent-exercises.html';
+    })
+
+    // [feature/embed-yt] start
+
+    // Will fetch list of YT vids; getVidIds() will sort data, store locally; getFirstVid() will return the first vid for the exercise at top of page; embedNewVid() will embed that video based on its id.
+    function fetchYT(validAPIKey) {
+        // going to do something to the exercise string...
+        var exercise = addExTitle()
+        if (exercise) {
+            console.log(exercise)
+            // checks if exercise's video ids are already in local storage. if yes, page can be populated successfully w/o using API!
+            if (localStorage.getItem(exercise)) {
+                console.log('included')
+                var firstVid = getFirstVid(exercise)
+                embedNewVid(firstVid.id)
+                popVidSelect(exercise)
+            } else {
+                var exQuery = exercise
+                    .toLowerCase()
+                    .replaceAll(' ', '+')
+                console.log(exQuery)
+                var ytAPI = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=${exQuery}&type=video&key=${validAPIKey}`
+                console.log(ytAPI)
+                var endFetch
+                fetch(ytAPI)
+                    .then(function (response) {
+                        // conditional checks to see if there is an error with the fetch; if there is, it should be because the API key's quota has been reached
+                        // Will end the fetch if this is the case; if no error, continue with fetch
+                        if (!response.ok) {
+                            console.log('API key quota reached')
+                            endFetch = true
+                            return
+                        } else {
+                            return response.json();
+                        }
+                    })
+                    .then(function (data) {
+                        // Again, if fetch results in error, keyIndex is incremented, so as to move to next key, and is set as the new valid key.
+                        // fetchYT function is run again with the new valid key, which should result in a successful fetch. If not, the cycle repeats.
+                        if (endFetch) {
+                            console.log('ready to end')
+                            keyIndex++
+                            console.log(keyIndex)
+                            validAPIKey = ytAPIKeyArray[keyIndex]
+                            console.log(validAPIKey)
+                            fetchYT(validAPIKey)
+                        } else {
+                            console.log(data)
+                            getVidIds(data, exercise)
+                            // will later grab exercise from page and embed vid based on that; will replace 'exNamePH' with 'exercise'
+                            var firstVid = getFirstVid(exercise)
+                            embedNewVid(firstVid.id)
+                            popVidSelect(exercise)
+                        }
+                    })
+            }
+        }
+    }
+
+    // Gets video names/ids for the exercise; to be part of the fetch function, taking fetched data and storing locally
+    function getVidIds(data, exercise) {
+        var exVidsArray = []
+        data.items.forEach(function (video) {
+            vidData = {
+                name: video.snippet.title,
+                id: video.id.videoId
+            }
+            exVidsArray.push(vidData)
+        })
+        localStorage.setItem(exercise, JSON.stringify(exVidsArray))
+    }
+
+    // After being fetched for the exercise, everything else will be done from local storage:
+    function getFirstVid(exercise) {
+        var exVidsArray = JSON.parse(localStorage.getItem(exercise))
+        return exVidsArray[0]
+    }
+
+    function embedNewVid(vidId) {
+        var ytVid = 'https://www.youtube.com/embed/' + vidId
+        vidSrcEl.attr('src', ytVid)
+    }
+
+    function popVidSelect(exercise) {
+        var exVidsArray = JSON.parse(localStorage.getItem(exercise))
+        exVidsArray.forEach(function (video) {
+            var vidOpt = $('<a>').text(video.name).attr('data-id', video.id).addClass('dropdown-item vid-opt')
+            vidSelect.append(vidOpt)
+        })
+    }
+
+    vidSelect.click(function (event) {
+        var clicked = $(event.target)
+        if (clicked.hasClass('vid-opt')) {
+            var vidId = clicked.attr('data-id')
+            embedNewVid(vidId)
+        }
+    })
 
 
-// Check if I am on correct page before doing YT pull: 
-if (document.location.pathname === '/pages/Instruct.html') {
-    fetchYT(validAPIKey)
-}
+    // Check if I am on correct page before doing YT pull: 
+    if (document.location.pathname === '/pages/Instruct.html') {
+        fetchYT(validAPIKey)
+    }
 // [feature/embed-yt] end
+
