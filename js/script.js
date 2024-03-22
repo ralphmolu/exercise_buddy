@@ -38,24 +38,24 @@ $(document).ready(function () {
     })
 
     // display exercise instructions
-    function displayExerciseInstructions (){
+    function displayExerciseInstructions() {
         var exInstruct = JSON.parse(localStorage.getItem('exercise-picked')) // retreve the object stored in the local storage
-    
+
         //ensure local storage object has elements
-        if(exInstruct && exInstruct.instructions){
+        if (exInstruct && exInstruct.instructions) {
             var splitInstructions = exInstruct.instruction.split('.');
             var instructionBodyEl = $('instructions-body');
-    
+
             //empty current instructions list
             instructionBodyEl.empty();
-    
-            splitInstructions.forEach(function(eachInstruction){
+
+            splitInstructions.forEach(function (eachInstruction) {
                 eachInstruction = eachInstruction.trim()
-    
+
                 var instructionEl = $('<li>').text(eachInstruction);
                 instructionBodyEl.append(instructionEl);
             })
-    
+
         }
     }
 
@@ -143,10 +143,12 @@ addExTitle()
 // works doubly as a function that will create title for page, and also return the name of the exercise to be stored in object for YT search
 function addExTitle() {
     var exNameHeader = $('#exercise-name-header')
-    var pickedExercise = JSON.parse(localStorage.getItem('exercise-picked'))
-    exNameHeader.text(pickedExercise.name)
-    console.log(pickedExercise.name)
-    return pickedExercise.name
+    var pickedExercise = JSON.parse(localStorage.getItem('exercise-picked')) || ""
+    if (pickedExercise !== "") {
+        exNameHeader.text(pickedExercise.name)
+        console.log(pickedExercise.name)
+        return pickedExercise.name
+    }
 }
 
 function addToRecents(exercise) {
@@ -247,7 +249,7 @@ recExBtnEl.click(function () {
 
 //event listener on the logo image such that the user is redirected to Home when the logo is clicked
 
-$('.home').click(function(){
+$('.home').click(function () {
     window.location.href = '../index.html';
 })
 
