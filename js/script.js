@@ -38,24 +38,24 @@ $(document).ready(function () {
     })
 
     // display exercise instructions
-    function displayExerciseInstructions (){
+    function displayExerciseInstructions() {
         var exInstruct = JSON.parse(localStorage.getItem('exercise-picked')) // retreve the object stored in the local storage
-    
+
         //ensure local storage object has elements
-        if(exInstruct && exInstruct.instructions){
+        if (exInstruct && exInstruct.instructions) {
             var splitInstructions = exInstruct.instruction.split('.');
             var instructionBodyEl = $('instructions-body');
-    
+
             //empty current instructions list
             instructionBodyEl.empty();
-    
-            splitInstructions.forEach(function(eachInstruction){
+
+            splitInstructions.forEach(function (eachInstruction) {
                 eachInstruction = eachInstruction.trim()
-    
+
                 var instructionEl = $('<li>').text(eachInstruction);
                 instructionBodyEl.append(instructionEl);
             })
-    
+
         }
     }
 
@@ -143,10 +143,14 @@ addExTitle()
 // works doubly as a function that will create title for page, and also return the name of the exercise to be stored in object for YT search
 function addExTitle() {
     var exNameHeader = $('#exercise-name-header')
-    var pickedExercise = JSON.parse(localStorage.getItem('exercise-picked'))
-    exNameHeader.text(pickedExercise.name)
-    console.log(pickedExercise.name)
-    return pickedExercise.name
+    var pickedExercise = JSON.parse(localStorage.getItem('exercise-picked')) || ''
+    if (pickedExercise) {
+        exNameHeader.text(pickedExercise.name)
+        console.log(pickedExercise.name)
+        return pickedExercise.name
+    } else {
+        return pickedExercise
+    }
 }
 
 function addToRecents(exercise) {
@@ -246,7 +250,7 @@ recExBtnEl.click(function () {
 
 //event listener on the logo image such that the user is redirected to Home when the logo is clicked
 
-$('.home').click(function(){
+$('.home').click(function () {
     window.location.href = '../index.html';
 })
 
@@ -277,52 +281,54 @@ var vidId
 function fetchYT(validAPIKey) {
     // going to do something to the exercise string...
     var exercise = addExTitle()
-    console.log(exercise)
-    // checks if exercise's video ids are already in local storage. if yes, page can be populated successfully w/o using API!
-    if (localStorage.getItem(exercise)) {
-        console.log('included')
-        var firstVid = getFirstVid(exercise)
-        embedNewVid(firstVid.id)
-        popVidSelect(exercise)
-    } else {
-        var exQuery = exercise
-            .toLowerCase()
-            .replaceAll(' ', '+')
-        console.log(exQuery)
-        var ytAPI = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=${exQuery}&type=video&key=${validAPIKey}`
-        console.log(ytAPI)
-        var endFetch
-        fetch(ytAPI)
-            .then(function (response) {
-                // conditional checks to see if there is an error with the fetch; if there is, it should be because the API key's quota has been reached
-                // Will end the fetch if this is the case; if no error, continue with fetch
-                if (!response.ok) {
-                    console.log('API key quota reached')
-                    endFetch = true
-                    return
-                } else {
-                    return response.json();
-                }
-            })
-            .then(function (data) {
-                // Again, if fetch results in error, keyIndex is incremented, so as to move to next key, and is set as the new valid key.
-                // fetchYT function is run again with the new valid key, which should result in a successful fetch. If not, the cycle repeats.
-                if (endFetch) {
-                    console.log('ready to end')
-                    keyIndex++
-                    console.log(keyIndex)
-                    validAPIKey = ytAPIKeyArray[keyIndex]
-                    console.log(validAPIKey)
-                    fetchYT(validAPIKey)
-                } else {
-                    console.log(data)
-                    getVidIds(data, exercise)
-                    // will later grab exercise from page and embed vid based on that; will replace 'exNamePH' with 'exercise'
-                    var firstVid = getFirstVid(exercise)
-                    embedNewVid(firstVid.id)
-                    popVidSelect(exercise)
-                }
-            })
+    if (exercise) {
+        console.log(exercise)
+        // checks if exercise's video ids are already in local storage. if yes, page can be populated successfully w/o using API!
+        if (localStorage.getItem(exercise)) {
+            console.log('included')
+            var firstVid = getFirstVid(exercise)
+            embedNewVid(firstVid.id)
+            popVidSelect(exercise)
+        } else {
+            var exQuery = exercise
+                .toLowerCase()
+                .replaceAll(' ', '+')
+            console.log(exQuery)
+            var ytAPI = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=${exQuery}&type=video&key=${validAPIKey}`
+            console.log(ytAPI)
+            var endFetch
+            fetch(ytAPI)
+                .then(function (response) {
+                    // conditional checks to see if there is an error with the fetch; if there is, it should be because the API key's quota has been reached
+                    // Will end the fetch if this is the case; if no error, continue with fetch
+                    if (!response.ok) {
+                        console.log('API key quota reached')
+                        endFetch = true
+                        return
+                    } else {
+                        return response.json();
+                    }
+                })
+                .then(function (data) {
+                    // Again, if fetch results in error, keyIndex is incremented, so as to move to next key, and is set as the new valid key.
+                    // fetchYT function is run again with the new valid key, which should result in a successful fetch. If not, the cycle repeats.
+                    if (endFetch) {
+                        console.log('ready to end')
+                        keyIndex++
+                        console.log(keyIndex)
+                        validAPIKey = ytAPIKeyArray[keyIndex]
+                        console.log(validAPIKey)
+                        fetchYT(validAPIKey)
+                    } else {
+                        console.log(data)
+                        getVidIds(data, exercise)
+                        // will later grab exercise from page and embed vid based on that; will replace 'exNamePH' with 'exercise'
+                        var firstVid = getFirstVid(exercise)
+                        embedNewVid(firstVid.id)
+                        popVidSelect(exercise)
+                    }
+                })
+        }
     }
 }
 
