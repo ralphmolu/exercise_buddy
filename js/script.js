@@ -53,12 +53,18 @@ $(document).ready(function () {
         }
     })
 
-    //eventlistener for find exercises button
+    //event listener for find exercises button
     $("#find-ex-btn").click(function () {
         // [feature/find-btn-gen] I changed/ added these 3 lines
         exNinApi = updateExNinAPIUrl();
         fetchEx(exNinApi)
 
+    })
+
+    //event listener on modal button to navigate back to Home
+    $('#modal-back-to-home').click(function(){
+        $('no-exercises-modal').removeClass('is-active'); // close modal
+        window.location.href = 'index.html'; // navigate to home
     })
 
 })
@@ -195,6 +201,7 @@ function displayRecentExercises() {
         var recentExercise = recentsArray[i]
         var recentExEl = $('<li>').text(recentExercise.name).addClass('is-underlined is-clickable').css({ "list-style-type": "circle", "color": "#2e76cb", "font-size": "1.2rem" })
         recentExList.append(recentExEl);
+
     }
 }
 displayRecentExercises();

@@ -167,6 +167,30 @@
             <button id="find-ex-btn" class="button is-link mt-3">Find Exercises:</button>
         </div>
     </section>
+
+    <!-- modal in case there are no exercise for chosen criteria -->
+    <div class="modal" id="no-exercises-modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">No Exercises Found</p>
+          </header>
+          <section class="modal-card-body">
+            Sorry, no excercises match your selection criteria. Please make another selection.
+          </section>
+          <footer class="modal-card-foot">
+            <div class="buttons">
+              <button class="button is-link" id="modal-back-to-home">
+                <span class="icon">
+                    <i class="fa-solid fa-house"></i>
+                </span>
+                <span>Back to Home</span>
+            </button>
+            </div>
+          </footer>
+        </div>
+      </div>
+
     <script src="https://kit.fontawesome.com/7b7cd6b3ef.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
