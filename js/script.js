@@ -55,17 +55,27 @@ $(document).ready(function () {
 
     //event listener for find exercises button
     $("#find-ex-btn").click(function () {
+        // logic to handle the user not making selection 
+        var exTypeNoSelection = $('#ex-main').text().trim() ==='Choose exercise type here';
+        var muscleNoSelection = $('#muscle-main').text().trim() === 'Choose muscle group here';
+        var difficultyNoSelection = $('#difficulty-main').text().trim() === 'Choose difficulty here';
+
+        if (exTypeNoSelection || muscleNoSelection || difficultyNoSelection){
+            $('#no-selection-modal').addClass('is-active')
+        }else {
         // [feature/find-btn-gen] I changed/ added these 3 lines
         exNinApi = updateExNinAPIUrl();
         fetchEx(exNinApi)
+        }
 
     })
 
-    //event listener on modal button to navigate back to Home
-    $('#modal-back-to-home').click(function(){
-        $('no-exercises-modal').removeClass('is-active'); // close modal
+    $('.modal-back-to-home-btn').click(function(){
+        $('.error-modal').removeClass('is-active'); // close modal
         window.location.href = 'index.html'; // navigate to home
     })
+
+    
 
 })
 
