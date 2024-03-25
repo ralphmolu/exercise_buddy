@@ -24,7 +24,7 @@ var ytAPIKeyArray = [ytAPIKeyDan, ytAPIKeyRalph, ytAPIKeySandy, ytAPIKeyAnna]
 var keyIndex = 0
 var validAPIKey = ytAPIKeyArray[keyIndex]
 
-var ytLink = 'https://www.youtube.com/watch?v='
+var ytLink = 'https://www.youtube.com/watch?v=';
 var vidSrcEl = $('#vid-el')
 var vidSelect = $('#vid-select')
 var vidId
@@ -261,10 +261,15 @@ function fetchEx(newUrl) {
         })
         .then(function (data) {
             console.log(data)
+            // modal warns user when no exercises match their criteria
+            if(data.length === 0){
+                $('#no-exercises-modal').addClass('is-active');
+            } else {
             // Stores data pulled via user query and stores it locally. 
             storeFetchEx(data)
             // Redirects to 'exercises' page
             window.location.href = "./pages/Exercises.html"
+            }
         })
 }
 
