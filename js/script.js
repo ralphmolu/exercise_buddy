@@ -24,7 +24,7 @@ var ytAPIKeyArray = [ytAPIKeyDan, ytAPIKeyRalph, ytAPIKeySandy, ytAPIKeyAnna]
 var keyIndex = 0
 var validAPIKey = ytAPIKeyArray[keyIndex]
 
-var ytLink = 'https://www.youtube.com/watch?v='
+var ytLink = 'https://www.youtube.com/watch?v=';
 var vidSrcEl = $('#vid-el')
 var vidSelect = $('#vid-select')
 var vidId
