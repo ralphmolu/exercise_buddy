@@ -198,7 +198,7 @@ function displayRecentExercises() {
 
     for (var i = 0; i < recentsArray.length; i++) {
         var recentExercise = recentsArray[i]
-        var recentExEl = $('<li>').text(recentExercise.name).addClass('is-underlined is-clickable recent-item').css({ "list-style-type": "circle", "color": "#2e76cb", "font-size": "1.2rem" })
+        var recentExEl = $('<button>').text(recentExercise.name).addClass('button is-link is-light m-2 recent-item')
         recentExEl.attr('data-index', i)
         recentExList.append(recentExEl);
 
