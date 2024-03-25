@@ -60,7 +60,7 @@ $(document).ready(function () {
         var muscleNoSelection = $('#muscle-main').text().trim() === 'Choose muscle group here';
         var difficultyNoSelection = $('#difficulty-main').text().trim() === 'Choose difficulty here';
 
-        if (exTypeNoSelection || muscleNoSelection || difficultyNoSelection){
+        if (exTypeNoSelection && muscleNoSelection && difficultyNoSelection){
             $('#no-selection-modal').addClass('is-active')
         }else {
         // [feature/find-btn-gen] I changed/ added these 3 lines
