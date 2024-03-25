@@ -167,7 +167,6 @@ function updateExNinAPIUrl() {
             var instructHTML = './Instruct.html'
             localStorage.setItem('exercise-picked', JSON.stringify(exData))
             window.location.replace(instructHTML)
-
         } else {
             console.log('not button')
             return
@@ -199,7 +198,8 @@ function displayRecentExercises() {
 
     for (var i = 0; i < recentsArray.length; i++) {
         var recentExercise = recentsArray[i]
-        var recentExEl = $('<li>').text(recentExercise.name).addClass('is-underlined is-clickable').css({ "list-style-type": "circle", "color": "#2e76cb", "font-size": "1.2rem" })
+        var recentExEl = $('<li>').text(recentExercise.name).addClass('is-underlined is-clickable recent-item').css({ "list-style-type": "circle", "color": "#2e76cb", "font-size": "1.2rem" })
+        recentExEl.attr('data-index', i)
         recentExList.append(recentExEl);
 
     }
@@ -207,12 +207,23 @@ function displayRecentExercises() {
 
 displayRecentExercises();
 
-//targets clicked li element from recent exercise list
-recentExList.on("click", function(event){
-    
-    clickedEx = $(event.target)
-    console.log(clickedEx);
-    location.href= "./Instruct.html";
+recentExList.click(function (event) {
+    var clickedEl = $(event.target)
+    if ((clickedEl.attr('class').includes('recent-item'))) {
+        var i = clickedEl.attr('data-index')
+        var exData = {
+            name: recentsArray[i].name,
+            instructions: recentsArray[i].instructions
+        }
+        console.log(exData)
+        var instructHTML = './Instruct.html'
+        localStorage.setItem('exercise-picked', JSON.stringify(exData))
+        window.location.replace(instructHTML)
+
+    } else {
+        console.log('not a link')
+        return
+    }
 })
 
  //function displays reset button on recent exercises page if array is not empty
