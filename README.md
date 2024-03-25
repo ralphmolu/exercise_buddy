@@ -7,13 +7,28 @@ Based on user-selected criteria with the help of the intuitive UI, Exercise Budd
 ## App Preview 👀
 
 ## Features ✨
+1. Exercise Selection - Users can select exercises based on type, muscle group, and difficulty level
+2. Dynamic Exercise Fetching - Exercise API is leveraged t dynamically fetch and display exercises matching the user's criteria.
+3. Detailed Instructions - Provides detailed instructions for each exercise, helping users have the right form.
+4. Video Demonstrations - Leveraging YouTube API to display video demonstration
 
 
 ## Code-Snippet 💻
 
 ## Skills Improved 🛠️
+* Web Development Fundamentals
+* APIs (YouTube and Exercise API) Integration
+* JavaScript Framework and Libraries
+* Responsive Design
+* Local Storage Management
+* Event Handling
+* UI Design
+* Git and version control
+* Error handling and Debugging
+
 
 ## Future Improvements 🔜
+* More Error Handling assocaited with fetching from APIs
 
 ## Technologies 🔧
 * [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML)
