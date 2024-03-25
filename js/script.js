@@ -399,7 +399,7 @@ function fetchYT(validAPIKey) {
 
 
     // Check if I am on correct page before doing YT pull: 
-    if (document.location.pathname === '/pages/Instruct.html') {
+    if ((document.location.pathname === '/exercise_buddy/pages/Instruct.html')|| (document.location.pathname === '/pages/Instruct.html')) {
         fetchYT(validAPIKey)
     }
 // [feature/embed-yt] end
