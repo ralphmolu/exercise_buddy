@@ -14,7 +14,7 @@ var exNameHeader = $('#exercise-name-header');
 var userExList
 // Sets value of 'userExList' to whatever is pulled from local storage with retrieveFetchEx()
 userExList = retrieveFetchEx()
-var recExBtnEl = $('.rec-ex-btn')
+var recExBtnEl = $('.recent')
 var ytAPIKeyDan = 'AIzaSyB9d1Cst7FLimdflVD7dDzQFe6k09qyzsE';
 var ytAPIKeyRalph = 'AIzaSyDN2x7IWfitTATr3ByxdWJnBLycKq_T19k';
 var ytAPIKeySandy = 'AIzaSyCoF7E6WQc0fEFE2hTPPf_nEn55mragl2Q';
@@ -204,6 +204,7 @@ function displayRecentExercises() {
 
     }
 }
+
 displayRecentExercises();
 
 //targets clicked li element from recent exercise list
@@ -286,10 +287,6 @@ recExBtnEl.click(function () {
 
 $('.home').click(function () {
     window.location.href = '../index.html';
-})
-
-$('.recent').click(function () {
-    window.location.href = 'recent-exercises.html';
 })
 
 // [feature/embed-yt] start
