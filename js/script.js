@@ -24,7 +24,7 @@ var ytAPIKeyArray = [ytAPIKeyDan, ytAPIKeyRalph, ytAPIKeySandy, ytAPIKeyAnna]
 var keyIndex = 0
 var validAPIKey = ytAPIKeyArray[keyIndex]
 
-var ytLink = 'https://www.youtube.com/watch?v='
+var ytLink = 'https://www.youtube.com/watch?v=';
 var vidSrcEl = $('#vid-el')
 var vidSelect = $('#vid-select')
 var vidId
@@ -208,7 +208,7 @@ function displayRecentExercises() {
 
     for (var i = 0; i < recentsArray.length; i++) {
         var recentExercise = recentsArray[i]
-        var recentExEl = $('<li>').text(recentExercise.name).addClass('is-underlined is-clickable recent-item').css({ "list-style-type": "circle", "color": "#2e76cb", "font-size": "1.2rem" })
+        var recentExEl = $('<button>').text(recentExercise.name).addClass('button is-link is-light m-2 recent-item')
         recentExEl.attr('data-index', i)
         recentExList.append(recentExEl);
 
